@@ -44,7 +44,7 @@ body  {
     cursor: pointer;
   }
   .selected_button {
-    border: 1px solid rgba(253, 1, 1, 0.972);
+    border: 3px solid rgba(253, 1, 1, 0.972);
   }
   #start{
     text-align: center;
