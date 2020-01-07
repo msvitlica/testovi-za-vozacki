@@ -1,4 +1,4 @@
-var testButtonsB = [
+var testButtons = [
     {
         name: 'Test1',
         category: 'B'
@@ -46,10 +46,8 @@ var testButtonsB = [
     {
         name: 'Test13',
         category: 'B'
-    }
-]
-var testButtonsC= [
-    {
+    },
+{
         name: 'Test14',
         category: 'C'
     },
@@ -60,9 +58,7 @@ var testButtonsC= [
     {
         name: 'Test16',
         category: 'C'
-    }
-]
-var testButtonsD= [
+    },
     {
         name: 'Test17',
         category: 'D'

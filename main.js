@@ -1,12 +1,12 @@
 var selectedTestButton = undefined;
 function onPageLoad() {
-    testButtonsB.forEach(el => {
+    testButtons.filter(el=> el.category=== 'B').forEach(el => {
         document.getElementById('testHolder1').innerHTML += '<button class= "button">' + el.name + '</button>'
     });
-    testButtonsC.forEach(el => {
+    testButtons.filter(el=> el.category=== 'C').forEach(el => {
         document.getElementById('testHolder2').innerHTML += '<button class= "button">' + el.name + '</button>'
     });
-    testButtonsD.forEach(el => {
+    testButtons.filter(el=> el.category=== 'D').forEach(el => {
         document.getElementById('testHolder3').innerHTML += '<button class= "button">' + el.name + '</button>'
     });
     [...document.getElementsByClassName("button")].forEach(button => {
