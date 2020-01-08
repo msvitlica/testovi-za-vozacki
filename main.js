@@ -15,3 +15,17 @@ function onPageLoad() {
 function onStart(){
     alert(selectedTest);
 }
+
+// Class for manipulating with questions
+
+class Question{
+    constructor(questionText, category, img){
+        this.questionText = questionText;
+        this.answers = [];
+        this.category = category;
+        this.img = img;
+    }
+    addAnswers(answer){
+        this.answers = [...answer];
+    }
+}

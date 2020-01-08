@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="questionModification.css">
     <link rel="stylesheet" href="Unos_pitanja_za_test_za_vozacki.css">
     <script src="questionModification.js"></script>
+    <script src="main.js"></script>
 </head>
 
 <body class="container">
@@ -20,7 +21,7 @@
             <br>
             <a href="#" class="createQuestionBtn" onclick="popUpDialog()">Novo Pitanje</a>
             <br><br>
-            <table>
+            <table id="questionTable">
                 <th>ID</th>
                 <th>Tekst Pitanja</th>
                 <th>Akcije</th>
@@ -34,7 +35,7 @@
                 <br>
                 <h2>Kategorija:</h2>
                 <select id="category" class="input-box">
-                    <option selected disabled>Izaberite Kategoriju</option>
+                    <option value="default" selected disabled>Izaberite Kategoriju</option>
                     <option value="kategorija b">Kategorija B</option>
                     <option value="kategorija c">Kategorija C</option>
                     <option value="kategorija d">Kategorija D</option>
@@ -45,14 +46,15 @@
                 <h2>Odgovor:</h2>
                 <input type="text" class="input-box" id="questionAnswer">
                 <input type="checkbox" class="correct-box" id="correctAnswer">
-                <span>Tačan ?</span>
-                <button class="addAnswer">Dodaj odgovor</button>
-                <table class="answersTable">
+                <label>Tačan ?</label>
+                <button id="addAnswer" class="addAnswer" onclick="addAnswerInTable()">Dodaj odgovor</button>
+                <table id="answers" class="answersTable">
                     <th>Odgovor</th>
-                    <th>Da/Ne?</th>
+                    <th>Tačno?</th>
+                    <th>Akcije</th>
                 </table>
                 <br><br>
-                <button class="saveQuestion">Sačuvaj Pitanje</button>
+                <button class="saveQuestion" onclick="addQuestion()">Sačuvaj Pitanje</button>
             </div>
         </div>
         </div>

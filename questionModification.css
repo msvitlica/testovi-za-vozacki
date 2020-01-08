@@ -1,13 +1,12 @@
 /* Table and input boxes */
-.answersTable, th, tr{
+table, th, td, tr{
     padding: 10px;
     margin-top: 50px;
     width: 200px;
     table-layout: fixed;
-}
-table, th, tr{
     border-collapse: collapse;
     border: 2px solid black;
+    text-align: center;
 }
 th, tr, td{
     word-wrap: break-word;
