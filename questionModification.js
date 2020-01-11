@@ -18,6 +18,7 @@ function clearHtmlTable(table){
 }
 
 function drawTable(table){
+    console.log(uuidv1());
     clearHtmlTable(document.getElementById('questionTable'));
     questions.forEach((el, index) => {
     const row = table.insertRow();
