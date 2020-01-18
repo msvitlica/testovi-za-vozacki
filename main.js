@@ -22,13 +22,41 @@ function onPageLoad() {
 // Class for manipulating with questions
 
 class Question{
-    constructor(questionText, category, img){
-        this.questionText = questionText;
+    constructor(){
+        this.questionText;
         this.answers = [];
-        this.category = category;
-        this.img = img;
+        this.category;
+        this.img;
+        this.id;
     }
     addAnswers(answer){
-        this.answers = [...answer];
+        this.answers.push(answer);
     }
+    deleteAnswer(answer){
+        this.answers = this.answers.filter((el) => {
+            if(answer !== el.answer){
+                return el;
+            }
+        })
+    }
+}
+
+class QuestionsStorage{
+    constructor(){
+        this.questions = [];
+    }
+    saveQuestion(question){
+        question.id = uuidv1();
+        this.questions.push(question);
+        localStorage.setItem('questions', JSON.stringify(this.questions));
+    }
+    getAllQuestions(){
+        let loadData = localStorage.getItem('questions');
+        loadData ? this.questions = JSON.parse(loadData) : this.questions = [];
+        return this.questions;
+    }
+}
+function loadData(){
+    questions = new QuestionsStorage();
+    drawTable(document.getElementById('questionTable'));
 }

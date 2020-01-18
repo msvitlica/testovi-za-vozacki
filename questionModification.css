@@ -95,3 +95,8 @@ th, tr, td{
     text-decoration: none;
     cursor: pointer;
 }
+.modifie:hover{
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
