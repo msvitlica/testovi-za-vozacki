@@ -19,7 +19,7 @@ function onPageLoad() {
     });
 }
 
-// Class for manipulating with questions
+// Class for manipulating witsthis.allQuestions
 
 class Question{
     constructor(){
@@ -41,22 +41,27 @@ class Question{
     }
 }
 
-class QuestionsStorage{
+class Questionair{
     constructor(){
         this.questions = [];
     }
+}
+
+class QuestionsStorage{
+    constructor(){
+        this.allQuestions = [];
+    }
     saveQuestion(question){
         question.id = uuidv1();
-        this.questions.push(question);
-        localStorage.setItem('questions', JSON.stringify(this.questions));
+        this.allQuestions.push(question);
+        localStorage.setItem('allQuestions', JSON.stringify(this.allQuestions));
     }
     getAllQuestions(){
-        let loadData = localStorage.getItem('questions');
-        loadData ? this.questions = JSON.parse(loadData) : this.questions = [];
-        return this.questions;
+        let loadData = localStorage.getItem('allQuestions');
+        loadData ? this.allQuestions = JSON.parse(loadData) : this.allQuestions = [];
+        return this.allQuestions;
     }
 }
-function loadData(){
-    questions = new QuestionsStorage();
+function loadData(){sthis.allQuestions = new QuestionsStorage();
     drawTable(document.getElementById('questionTable'));
 }
