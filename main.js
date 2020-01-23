@@ -62,6 +62,7 @@ class QuestionsStorage{
         return this.allQuestions;
     }
 }
-function loadData(){sthis.allQuestions = new QuestionsStorage();
+function loadData(){
+    questions = new QuestionsStorage();
     drawTable(document.getElementById('questionTable'));
 }
