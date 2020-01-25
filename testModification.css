@@ -1,0 +1,78 @@
+/* Tables */
+table, th, td, tr{
+    padding: 10px;
+    margin-top: 50px;
+    width: 200px;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border: 2px solid black;
+    text-align: center;
+}
+th, tr, td{
+    word-wrap: break-word;
+}
+/* Modal and modal content */
+
+.testModal{
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+.createTestModal{
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 70%;
+}
+.closeModal{
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.closeModal:hover,
+.closeModal:focus{
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+.input-box{
+    padding: 7px;
+    width: 260px;
+    border: 1px solid;
+    border-radius: 4px;
+    outline: none;
+}
+/* Modal Buttons */
+.createTestBtn{
+    color: black;
+    text-decoration: none;
+    font-size: 20px;
+}
+.createTestBtn:hover{
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.saveTestBtn{
+    background-color: #1e99ff;
+    border-radius: 8px;
+    outline: none;
+    padding: 8px;
+    font-size: 17px;
+}
+.saveTestBtn:hover{
+    background-color: white;
+    color: black;
+    text-decoration: underline;
+    cursor: pointer;
+    transition-duration: 0.5s;
+}

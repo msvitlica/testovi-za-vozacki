@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Administracija</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="testModification.css">
+    <link rel="stylesheet" href="main.css">
+    <script src="testModification.js"></script>
+    <script src="main.js"></script>
+    <script src="http://wzrd.in/standalone/uuid%2Fv1@latest"></script>
+</head>
+
+<body class="container">
+    <nav>
+        <a href="homePage.html">Početna strana</a>
+        <a href="administration.html">Administracija</a>
+    </nav>
+    <div class="contentWraper">
+        <div class="testAdministration">
+            <h1>Administracija Testova</h1>
+            <br>
+            <a href="#" class="createTestBtn" onclick="createTest()">Unos Testa</a>
+            <br>
+            <table>
+                <th>ID</th>
+                <th>Naziv Testa</th>
+                <th>Akcije</th>
+            </table>
+        </div>
+        <div id="testMaker" class="testModal">
+            <div class="createTestModal">
+                <span id="closeModalBtn" class="closeModal" onclick="closeModalDialog()">&times;</span>
+                <h2>Naziv Testa</h2>
+                <br>
+                <input type="text" id="testName" class="input-box">
+                <br>
+                <h2>Izaberi Kategoriju</h2>
+                <select id="testCategory" class="input-box">
+                    <option selected disabled>Izaberi Kategoriju</option>
+                    <option value="kategorija b">Kategorija B</option>
+                    <option value="kategorija c">Kategorija C</option>
+                    <option value="kategorija d">Kategorija D</option>
+                </select>
+                <br>
+                <h2>Pitanja</h2>
+                <table>
+                    <th>Redni broj</th>
+                    <th>Pitanje</th>
+                    <th>Akcije</th>
+                </table>
+                <br>
+                <button class="saveTestBtn">Unesi Test</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
