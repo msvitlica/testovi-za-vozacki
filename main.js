@@ -58,5 +58,5 @@ class QuestionsStorage{
 }
 function loadData(){
     questions = new QuestionsStorage();
-    drawTable(document.getElementById('questionTable'));
+    drawTable(document.getElementById('questionTable'));   
 }

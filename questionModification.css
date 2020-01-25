@@ -12,8 +12,8 @@ th, tr, td{
     word-wrap: break-word;
 }
 .input-box{
-    padding: 7px;
-    width: 260px;
+    padding: 3px;
+    width: 180px;
     border: 1px solid;
     border-radius: 4px;
     outline: none;
@@ -21,8 +21,8 @@ th, tr, td{
 .correct-box{
     position: relative;
     top: 0.5rem;
-    height: 25px;
-    width: 25px;
+    height: 18px;
+    width: 18px;
 }
 /* Buttons */
 .addAnswer{
@@ -30,10 +30,10 @@ th, tr, td{
     border-radius: 8px;
     outline: none;
     padding: 8px;
-    font-size: 17px;
+    font-size: 12px;
 }
 .addAnswer:hover{
-    background-color: white;
+    background-color: rgba(96, 223, 79, 0.966);
     color: black;
     text-decoration: underline;
     cursor: pointer;
@@ -43,11 +43,11 @@ th, tr, td{
     background-color: #1e99ff;
     border-radius: 8px;
     outline: none;
-    padding: 8px;
-    font-size: 17px;
+    padding: 10px;
+    font-size: 12px;
 }
 .saveQuestion:hover{
-    background-color: white;
+    background-color: rgb(96, 216, 224);
     color: black;
     text-decoration: underline;
     cursor: pointer;
@@ -77,10 +77,10 @@ th, tr, td{
 }
 .createQuestion{
     background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
+    margin: auto;
+    padding: 15px;
     border: 1px solid #888;
-    width: 80%;
+    width: 55%;
 }
 .close {
     color: #aaa;
