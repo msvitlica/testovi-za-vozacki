@@ -33,7 +33,7 @@ function drawTable(){
         const cell3 = row.insertCell(2);
         cell1.innerHTML = el.id;
         cell2.innerHTML = el.questionText;
-        cell3.innerHTML = '<a class="modifie">Izmjeni</a> || <a class="modifie">Obriši</a>';
+        cell3.innerHTML = '<a class="modifie">Izmjeni</a> || <a class="modifie" onclick="onDeleteQuestionClick(\'' + el.id + '\')">Obriši</a>';
     })
 }
 
@@ -88,4 +88,8 @@ function deleteAnswer(answer){
     clearHtmlTable(document.getElementById('answers'));
     displayAnswers();
     
+}
+function onDeleteQuestionClick(id){
+    questionStorage.delete(id);
+    drawTable();
 }

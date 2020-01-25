@@ -63,4 +63,8 @@ class QuestionsStorage {
         }       
         return this.allQuestions;
     }
+    delete(id){
+      this.allQuestions = this.allQuestions.filter((el)=> el.id !== id);
+      localStorage.setItem('allQuestions', JSON.stringify(this.allQuestions));
+    }
 }
