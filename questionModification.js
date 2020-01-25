@@ -1,5 +1,11 @@
 let tempQuestionObj;
-let questions;
+let questionStorage;
+
+function onLoad(){
+    questionStorage = new QuestionsStorage();
+    drawTable();   
+}
+
 function popUpDialog(){
     tempQuestionObj = new Question();
     document.getElementById('questionMaker').style.display = 'block';
@@ -17,9 +23,10 @@ function clearHtmlTable(table){
     }
 }
 
-function drawTable(table){
-    clearHtmlTable(document.getElementById('questionTable'));
-    questions.getAllQuestions().forEach((el) => {
+function drawTable(){
+    const table = document.getElementById('questionTable')
+    clearHtmlTable(table);
+    questionStorage.getAllQuestions().forEach((el) => {
         const row = table.insertRow();
         const cell1 = row.insertCell(0);
         const cell2 = row.insertCell(1);
@@ -32,33 +39,40 @@ function drawTable(table){
 
 // Questions and Answers
 
-function addQuestion() {
-    let question = document.getElementById('questionText');
-    let category = document.getElementById('category');
-    let img = document.getElementById('questionPicture');
-    tempQuestionObj.questionText = question.value;
-    tempQuestionObj.category = category.value;
-    tempQuestionObj.img = img.value;
-    (questions) ? questions : questions = new QuestionsStorage();
-    questions.saveQuestion(tempQuestionObj);
-    drawTable(document.getElementById('questionTable'));
+function addQuestion() {    
+    
+    tempQuestionObj.questionText =  document.getElementById('questionText').value;
+    tempQuestionObj.category = document.getElementById('category').value;
+    tempQuestionObj.img = document.getElementById('questionPicture').value;
+
+    questionStorage.saveQuestion(tempQuestionObj);
+
     closePopUp();
-    question.value = '';
-    category.value = 'default';
-    img.value = '';
-    clearHtmlTable(document.getElementById('answers'));
+    clearAddQuestionForm()
+    drawTable();
+
+    function clearAddQuestionForm() {
+        document.getElementById('questionText').value = '';
+        document.getElementById('category').value = 'default';
+        document.getElementById('questionPicture').value = '';
+        clearHtmlTable(document.getElementById('answers'));
+    }
 }
 
-function addAnswerInTable(){
-    let answer = document.getElementById('questionAnswer');
-    let correct = document.getElementById('correctAnswer');
+function addAnswerInTable(){   
     tempQuestionObj.addAnswers({
-        answer: answer.value,
-        correct: correct.checked,
-        tačno: correct.checked ? 'Da' : 'Ne'
+        answer: document.getElementById('questionAnswer').value,
+        correct: document.getElementById('correctAnswer').checked,
+        tačno: document.getElementById('correctAnswer').checked ? 'Da' : 'Ne'
     });
 
     clearHtmlTable(document.getElementById('answers'));
+    displayAnswers();
+    document.getElementById('questionAnswer').value = '';
+    document.getElementById('correctAnswer').checked = false;   
+}
+
+function displayAnswers() {
     tempQuestionObj.answers.forEach((el) => {
         const row = document.getElementById('answers').insertRow();
         const cell1 = row.insertCell(0);
@@ -67,21 +81,11 @@ function addAnswerInTable(){
         cell1.innerHTML = el.answer;
         cell2.innerHTML = el.tačno;
         cell3.innerHTML = '<a class="modifie" onclick="deleteAnswer(\'' + el.answer + '\')">Obriši</a>';
-    })
-    answer.value = '';
-    correct.checked = false;
+    });
 }
 function deleteAnswer(answer){
-    tempQuestionObj.deleteAnswer(answer);
-    
+    tempQuestionObj.deleteAnswer(answer);    
     clearHtmlTable(document.getElementById('answers'));
-    tempQuestionObj.answers.forEach((el) => {
-        const row = document.getElementById('answers').insertRow();
-        const cell1 = row.insertCell(0);
-        const cell2 = row.insertCell(1);
-        const cell3 = row.insertCell(2);
-        cell1.innerHTML = el.answer;
-        cell2.innerHTML = el.tačno;
-        cell3.innerHTML = '<a class="modifie" onclick="deleteAnswer(\'' + el.answer + '\')">Obriši</a>';
-    });
+    displayAnswers();
+    
 }

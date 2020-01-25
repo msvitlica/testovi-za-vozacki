@@ -1,12 +1,12 @@
 var selectedTestButton = undefined;
 function onPageLoad() {
-    testButtons.filter(el=> el.category=== 'B').forEach(el => {
+    testButtons.filter(el => el.category === 'B').forEach(el => {
         document.getElementById('testHolder1').innerHTML += '<button class= "button">' + el.name + '</button>'
     });
-    testButtons.filter(el=> el.category=== 'C').forEach(el => {
+    testButtons.filter(el => el.category === 'C').forEach(el => {
         document.getElementById('testHolder2').innerHTML += '<button class= "button">' + el.name + '</button>'
     });
-    testButtons.filter(el=> el.category=== 'D').forEach(el => {
+    testButtons.filter(el => el.category === 'D').forEach(el => {
         document.getElementById('testHolder3').innerHTML += '<button class= "button">' + el.name + '</button>'
     });
     [...document.getElementsByClassName("button")].forEach(button => {
@@ -21,48 +21,46 @@ function onPageLoad() {
 
 // Class for manipulating witsthis.allQuestions
 
-class Question{
-    constructor(){
+class Question {
+    constructor() {
         this.questionText;
         this.answers = [];
         this.category;
         this.img;
         this.id;
     }
-    addAnswers(answer){
+    addAnswers(answer) {
         this.answers.push(answer);
     }
-    deleteAnswer(answer){
+    deleteAnswer(answer) {
         this.answers = this.answers.filter((el) => {
-            if(answer !== el.answer){
+            if (answer !== el.answer) {
                 return el;
             }
         })
     }
 }
 
-class Questionair{
-    constructor(){
+class Questionair {
+    constructor() {
         this.questions = [];
     }
 }
 
-class QuestionsStorage{
-    constructor(){
+class QuestionsStorage {
+    constructor() {
         this.allQuestions = [];
     }
-    saveQuestion(question){
+    saveQuestion(question) {
         question.id = uuidv1();
         this.allQuestions.push(question);
         localStorage.setItem('allQuestions', JSON.stringify(this.allQuestions));
     }
-    getAllQuestions(){
+    getAllQuestions() {
         let loadData = localStorage.getItem('allQuestions');
-        loadData ? this.allQuestions = JSON.parse(loadData) : this.allQuestions = [];
+        if (loadData) {
+            this.allQuestions = JSON.parse(loadData);
+        }       
         return this.allQuestions;
     }
-}
-function loadData(){
-    questions = new QuestionsStorage();
-    drawTable(document.getElementById('questionTable'));   
 }
