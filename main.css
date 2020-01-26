@@ -24,13 +24,13 @@ nav a:hover {
 }
 .container{
   background-color:hsl(180, 39%, 53%);
-  position:relative;
+  position: relative;
 }
 .contentWraper {
   background-color:rgb(209, 204, 204);
-  width:70%;
   margin: 20px auto;
   padding: 50px; 
+  width:fit-content;
 }
 .button {
   background-color: hsla(66, 75%, 52%, 0.938); 

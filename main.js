@@ -1,12 +1,12 @@
 var selectedTestButton = undefined;
 function onPageLoad() {
-    testButtons.filter(el=> el.category=== 'B').forEach(el => {
+    testButtons.filter(el => el.category === 'B').forEach(el => {
         document.getElementById('testHolder1').innerHTML += '<button class= "button">' + el.name + '</button>'
     });
-    testButtons.filter(el=> el.category=== 'C').forEach(el => {
+    testButtons.filter(el => el.category === 'C').forEach(el => {
         document.getElementById('testHolder2').innerHTML += '<button class= "button">' + el.name + '</button>'
     });
-    testButtons.filter(el=> el.category=== 'D').forEach(el => {
+    testButtons.filter(el => el.category === 'D').forEach(el => {
         document.getElementById('testHolder3').innerHTML += '<button class= "button">' + el.name + '</button>'
     });
     [...document.getElementsByClassName("button")].forEach(button => {
@@ -21,28 +21,28 @@ function onPageLoad() {
 
 // Class for manipulating witsthis.allQuestions
 
-class Question{
-    constructor(){
+class Question {
+    constructor() {
         this.questionText;
         this.answers = [];
         this.category;
         this.img;
         this.id;
     }
-    addAnswers(answer){
+    addAnswers(answer) {
         this.answers.push(answer);
     }
-    deleteAnswer(answer){
+    deleteAnswer(answer) {
         this.answers = this.answers.filter((el) => {
-            if(answer !== el.answer){
+            if (answer !== el.answer) {
                 return el;
             }
         })
     }
 }
 
-class Questionair{
-    constructor(){
+class Questionair {
+    constructor() {
         this.id;
         this.name;
         this.category;
@@ -50,39 +50,53 @@ class Questionair{
         this.correct = 0;
         this.false = 0;
     }
-    addQuestion(question){
+    addQuestion(question) {
         this.questions.push(question);
+    }
+    deleteQuestion(question) {
+        this.questions = this.questions.filter((el) => {
+            if(question !== el.id) {
+                return el;
+            }
+        })
     }
 }
 
-class QuestionsStorage{
-    constructor(){
+class QuestionsStorage {
+    constructor() {
         this.allQuestions = [];
     }
-    saveChanges(){
-        localStorage.setItem('allQuestions', JSON.stringify(this.allQuestions));
-    }
-    saveQuestion(question){
+    saveQuestion(question) {
         question.id = uuidv1();
         this.allQuestions.push(question);
         localStorage.setItem('allQuestions', JSON.stringify(this.allQuestions));
     }
-    getAllQuestions(){
+    getAllQuestions() {
         let loadData = localStorage.getItem('allQuestions');
-        loadData ? this.allQuestions = JSON.parse(loadData) : this.allQuestions = [];
+        if (loadData) {
+            this.allQuestions = JSON.parse(loadData);
+        }       
         return this.allQuestions;
     }
-}
-function loadData(){
-    questions = new QuestionsStorage();
-    document.getElementById('questionTable') ? drawTable(document.getElementById('questionTable')) : false;
+    delete(id){
+      this.allQuestions = this.allQuestions.filter((el)=> el.id !== id);
+      localStorage.setItem('allQuestions', JSON.stringify(this.allQuestions));
+    }
 }
 
-// Tables and manipulating with tables
-
-function clearHtmlTable(table){
-    let tbl = table;
-    while (tbl.rows.length > 1){
-        tbl.deleteRow(1);
+class TestStorage {
+    constructor() {
+        this.allTests = [];
+    }
+    saveTest(test){
+        this.allTests.push(test);
+        localStorage.setItem('allTests', JSON.stringify(this.allTests));
+    }
+    getAllTests(){
+        let loadTests = localStorage.getItem('allTests');
+        if(loadTests) {
+            this.allTests = JSON.parse(loadTests);
+        }
+        return this.allTests
     }
 }
