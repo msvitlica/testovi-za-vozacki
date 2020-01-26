@@ -1,5 +1,6 @@
 let tempQuestionObj;
 let questionStorage;
+let currentQuestionId;
 function onLoad(){
     questionStorage = new QuestionsStorage();
     drawTable();   
@@ -90,16 +91,18 @@ function deleteAnswer(answer){
     
 }
 
-function showModal(){
+function showModal(el){
+    currentQuestionId= el;
     document.getElementById('deleteQ_modalBox').style.display = 'block';
 }
 function closeModal(){
     document.getElementById('deleteQ_modalBox').style.display = 'none';
 }
 function onYeslClick(){
+    deleteQuestion(currentQuestionId);
     closeModal();
 }
-function deleteQuestion(id){
-    questionStorage.delete(id);
+function deleteQuestion(currentQuestionId){
+    questionStorage.delete(currentQuestionId);
     drawTable();
 }
