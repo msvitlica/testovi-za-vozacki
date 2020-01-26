@@ -2,7 +2,7 @@
 table, th, td, tr{
     padding: 10px;
     margin-top: 50px;
-    width: 200px;
+    width: 100%;
     table-layout: fixed;
     border-collapse: collapse;
     border: 2px solid black;

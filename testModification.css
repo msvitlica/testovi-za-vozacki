@@ -2,7 +2,7 @@
 table, th, td, tr{
     padding: 10px;
     margin-top: 50px;
-    width: 200px;
+    width: 100%;
     table-layout: fixed;
     border-collapse: collapse;
     border: 2px solid black;
@@ -10,6 +10,9 @@ table, th, td, tr{
 }
 th, tr, td{
     word-wrap: break-word;
+}
+.narrow{
+    width: 50px;
 }
 /* Modal and modal content */
 
@@ -72,6 +75,22 @@ th, tr, td{
 .saveTestBtn:hover{
     background-color: white;
     color: black;
+    text-decoration: underline;
+    cursor: pointer;
+    transition-duration: 0.5s;
+}
+/* Buttons */
+
+.addQuestionInTbl{
+    background-color: lightgreen;
+    margin-left: 2px;
+    padding: 5px;
+    border-radius: 8px;
+    font-size: 17px;
+    outline: none;
+}
+.addQuestionInTbl:hover{
+    background-color: white;
     text-decoration: underline;
     cursor: pointer;
     transition-duration: 0.5s;

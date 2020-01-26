@@ -43,13 +43,24 @@ class Question{
 
 class Questionair{
     constructor(){
+        this.id;
+        this.name;
+        this.category;
         this.questions = [];
+        this.correct = 0;
+        this.false = 0;
+    }
+    addQuestion(question){
+        this.questions.push(question);
     }
 }
 
 class QuestionsStorage{
     constructor(){
         this.allQuestions = [];
+    }
+    saveChanges(){
+        localStorage.setItem('allQuestions', JSON.stringify(this.allQuestions));
     }
     saveQuestion(question){
         question.id = uuidv1();
@@ -64,5 +75,14 @@ class QuestionsStorage{
 }
 function loadData(){
     questions = new QuestionsStorage();
-    drawTable(document.getElementById('questionTable'));
+    document.getElementById('questionTable') ? drawTable(document.getElementById('questionTable')) : false;
+}
+
+// Tables and manipulating with tables
+
+function clearHtmlTable(table){
+    let tbl = table;
+    while (tbl.rows.length > 1){
+        tbl.deleteRow(1);
+    }
 }
