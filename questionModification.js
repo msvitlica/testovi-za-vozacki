@@ -1,6 +1,5 @@
 let tempQuestionObj;
 let questionStorage;
-
 function onLoad(){
     questionStorage = new QuestionsStorage();
     drawTable();   
@@ -33,7 +32,8 @@ function drawTable(){
         const cell3 = row.insertCell(2);
         cell1.innerHTML = el.id;
         cell2.innerHTML = el.questionText;
-        cell3.innerHTML = '<a class="modifie">Izmjeni</a> || <a class="modifie" onclick="onDeleteQuestionClick(\'' + el.id + '\')">Obriši</a>';
+        cell3.innerHTML = '<a class="modifie">Izmjeni</a> || <a class="modifie" onclick="showModal(\''+ el.id +'\')">Obriši</a>';
+
     })
 }
 
@@ -89,7 +89,17 @@ function deleteAnswer(answer){
     displayAnswers();
     
 }
-function onDeleteQuestionClick(id){
+
+function showModal(){
+    document.getElementById('deleteQ_modalBox').style.display = 'block';
+}
+function closeModal(){
+    document.getElementById('deleteQ_modalBox').style.display = 'none';
+}
+function onYeslClick(){
+    closeModal();
+}
+function deleteQuestion(id){
     questionStorage.delete(id);
     drawTable();
 }

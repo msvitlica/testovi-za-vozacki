@@ -28,6 +28,7 @@
                 </table>
             </div>
         </div>
+    </div>
         <div id="questionMaker">
            <div class="createQuestion">
                 <span id="closeBtn" class="close" onclick="closePopUp()">&times;</span>
@@ -56,7 +57,13 @@
                 <button class="saveQuestion" onclick="addQuestion()">Sačuvaj Pitanje</button>
           </div>
         </div>
-    </div>
+        <div id="deleteQ_modalBox">
+            <div class="questionEraser">
+                <h3>Zelite li da obrisete ovo pitanje?</h3>
+                <button id="yes" class="eraseQuestion" onclick="onYeslClick()">DA</button>
+                <button class="eraseQuestion" onclick="closeModal()">NE</button>
+            </div>
+        </div>
     </div>
 </body>
 
