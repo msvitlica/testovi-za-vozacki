@@ -93,12 +93,14 @@ function deleteAnswer(answer){
 
 function showModal(el){
     currentQuestionId= el;
-    document.getElementById('deleteQ_modalBox').style.display = 'block';
-}
+    document.getElementById('deleteQ_modalBox').style.display = 'block'; 
+    }
 function closeModal(){
     document.getElementById('deleteQ_modalBox').style.display = 'none';
+    currentQuestionId=null;
 }
 function onYeslClick(){
+     
     deleteQuestion(currentQuestionId);
     closeModal();
 }
