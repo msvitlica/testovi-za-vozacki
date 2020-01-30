@@ -1,13 +1,13 @@
-let tempQuestionObj;
+let question;
 let questionStorage;
 let currentQuestionId;
-function onLoad(){
+function onLoad(){    
     questionStorage = new QuestionsStorage();
     drawTable();   
 }
 
 function popUpDialog(){
-    tempQuestionObj = new Question();
+    question = new Question();
     document.getElementById('questionMaker').style.display = 'block';
 }
 function closePopUp(){
@@ -40,13 +40,19 @@ function drawTable(){
 
 // Questions and Answers
 
-function addQuestion() {    
-    
-    tempQuestionObj.questionText =  document.getElementById('questionText').value;
-    tempQuestionObj.category = document.getElementById('category').value;
-    tempQuestionObj.img = document.getElementById('questionPicture').value;
+function addOrUpdateQuestion() {    
 
-    questionStorage.saveQuestion(tempQuestionObj);
+    question.questionText =  document.getElementById('questionText').value;
+    question.category = document.getElementById('category').value;
+    question.img = document.getElementById('questionPicture').value;
+
+    if(question.id){
+        questionStorage.update(qustion);
+    }
+    else
+    {
+          questionStorage.saveQuestion(question);
+    }
 
     closePopUp();
     clearAddQuestionForm()
@@ -61,7 +67,7 @@ function addQuestion() {
 }
 
 function addAnswerInTable(){   
-    tempQuestionObj.addAnswers({
+    question.addAnswers({
         answer: document.getElementById('questionAnswer').value,
         correct: document.getElementById('correctAnswer').checked,
         tačno: document.getElementById('correctAnswer').checked ? 'Da' : 'Ne'
@@ -74,7 +80,7 @@ function addAnswerInTable(){
 }
 
 function displayAnswers() {
-    tempQuestionObj.answers.forEach((el) => {
+    question.answers.forEach((el) => {
         const row = document.getElementById('answers').insertRow();
         const cell1 = row.insertCell(0);
         const cell2 = row.insertCell(1);
@@ -85,7 +91,7 @@ function displayAnswers() {
     });
 }
 function deleteAnswer(answer){
-    tempQuestionObj.deleteAnswer(answer);    
+    question.deleteAnswer(answer);    
     clearHtmlTable(document.getElementById('answers'));
     displayAnswers();
     

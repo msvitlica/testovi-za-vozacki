@@ -67,7 +67,7 @@ class QuestionsStorage {
         this.allQuestions = [];
     }
     saveQuestion(question) {
-        question.id = uuidv1();
+        question.id = Math.random().toString();
         this.allQuestions.push(question);
         localStorage.setItem('allQuestions', JSON.stringify(this.allQuestions));
     }
