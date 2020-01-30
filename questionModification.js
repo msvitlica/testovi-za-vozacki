@@ -40,7 +40,7 @@ function drawTable(){
 
 // Questions and Answers
 
-function addOrUpdateQuestion() {    
+function addQuestion() {    
 
     question.questionText =  document.getElementById('questionText').value;
     question.category = document.getElementById('category').value;
