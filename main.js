@@ -41,7 +41,7 @@ class Question {
     }
 }
 
-class Questionair {
+class Test {
     constructor() {
         this.id;
         this.name;
@@ -67,7 +67,7 @@ class QuestionsStorage {
         this.allQuestions = [];
     }
     saveQuestion(question) {
-        question.id = Math.random().toString();
+        question.id = uuidv1();
         this.allQuestions.push(question);
         localStorage.setItem('allQuestions', JSON.stringify(this.allQuestions));
     }
@@ -89,6 +89,7 @@ class TestStorage {
         this.allTests = [];
     }
     saveTest(test){
+        test.id = uuidv1()
         this.allTests.push(test);
         localStorage.setItem('allTests', JSON.stringify(this.allTests));
     }
@@ -98,5 +99,13 @@ class TestStorage {
             this.allTests = JSON.parse(loadTests);
         }
         return this.allTests
+    }
+    deleteTest(test){
+        this.allTests = this.allTests.filter((el) => {
+            if(test !== el.id) {
+                return el;
+            }
+        });
+        localStorage.setItem('allTests', JSON.stringify(this.allTests));
     }
 }

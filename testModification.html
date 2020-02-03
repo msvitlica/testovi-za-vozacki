@@ -35,7 +35,7 @@
                 <h3>Naziv Testa</h3>
                 <input type="text" id="testName" class="input-box">
                 <h3>Izaberi Kategoriju</h3>
-                <select id="testCategory" class="input-box">
+                <select id="testCategory" class="input-box" onchange="fillDropdown()">
                     <option value="default" selected disabled>Izaberi Kategoriju</option>
                     <option value="Kategorija B">Kategorija B</option>
                     <option value="Kategorija C">Kategorija C</option>
@@ -52,7 +52,7 @@
                     <th>Akcije</th>
                 </table>
                 <br>
-                <button class="saveTestBtn" onclick="createTest()">Unesi Test</button>
+                <button class="saveTestBtn" onclick="onAddQuestionInTbl()">Unesi Test</button>
             </div>
         </div>
     </div>

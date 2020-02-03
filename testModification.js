@@ -1,4 +1,4 @@
-let temporaryQuestionair;
+let test;
 let questionStorage;
 let testStorage;
 
@@ -8,8 +8,7 @@ function onLoad() {
     drawTestsTable();
 }
 function enterTestPopUp() {
-    temporaryQuestionair = new Questionair();
-    fillDropdown();
+    test = new Test();
     document.getElementById('testMaker').style.display = 'block';
 }
 function closeModalDialog() {
@@ -29,7 +28,7 @@ function drawTestsTable(){
         cell1.innerHTML = el.id;
         cell2.innerHTML = el.name;
         cell3.innerHTML = el.category;
-        cell4.innerHTML = 'Obriši';
+        cell4.innerHTML = '<a class="modifie" onclick="onDeleteTestClick(\'' + el.id + '\')">Obriši</a>';
     })
 }
 
@@ -45,9 +44,13 @@ function clearHtmlTable(table) {
 function fillDropdown() {
     clearDropDown();
     let newOption = document.getElementById('pickQuestion');
-    questionStorage.getAllQuestions().forEach((el) => {
+    questionStorage.getAllQuestions().filter((elementForFilter) => {
+        if(document.getElementById('testCategory').value === elementForFilter.category){
+            return elementForFilter;
+        }
+    }).forEach((el) => {
         let child = document.createElement('option');
-        child.value = el.questionText;
+        child.value = el.id;
         newOption.appendChild(child).innerHTML = el.questionText;
     });
 }
@@ -66,7 +69,7 @@ function clearCreatTestForm() {
 function drawQuestionsTable(){
     const tbl = document.getElementById('pickedQuestionsTbl');
     clearHtmlTable(tbl);
-    temporaryQuestionair.questions.forEach((el, index) => {
+    test.questions.forEach((el, index) => {
         const row = tbl.insertRow();
         const cell1 = row.insertCell(0);
         const cell2 = row.insertCell(1);
@@ -88,8 +91,8 @@ function removeFromDropdown(element) {
 function addQuestionInTbl() {
     const tempQuestion = document.getElementById('pickQuestion');
     questionStorage.getAllQuestions().forEach((el) => {
-        if (tempQuestion.value === el.questionText) {
-            temporaryQuestionair.addQuestion(el)
+        if (tempQuestion.value === el.id) {
+            test.addQuestion(el)
         }
     });
     drawQuestionsTable();
@@ -97,11 +100,10 @@ function addQuestionInTbl() {
     tempQuestion.value = 'default';
 }
 
-function createTest() {
-    temporaryQuestionair.id = uuidv1();
-    temporaryQuestionair.name = document.getElementById('testName').value;
-    temporaryQuestionair.category = document.getElementById('testCategory').value;
-    testStorage.saveTest(temporaryQuestionair);
+function onAddQuestionInTbl() {
+    test.name = document.getElementById('testName').value;
+    test.category = document.getElementById('testCategory').value;
+    testStorage.saveTest(test);
 
     drawTestsTable();
     clearHtmlTable(document.getElementById('pickedQuestionsTbl'));
@@ -109,7 +111,12 @@ function createTest() {
     closeModalDialog();
 }
 function deleteQuestion(question) {
-    temporaryQuestionair.deleteQuestion(question);
+    test.deleteQuestion(question);
     fillDropdown();
     drawQuestionsTable();
+}
+
+function onDeleteTestClick(test){
+    testStorage.deleteTest(test);
+    drawTestsTable();
 }
