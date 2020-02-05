@@ -1,29 +1,30 @@
 let question;
 let questionStorage;
 let currentQuestionId;
-function onLoad(){    
+function onLoad() {
     questionStorage = new QuestionsStorage();
-    drawTable();   
+    drawTable();
 }
 
-function popUpDialog(){
+function popUpDialog() {
     question = new Question();
     document.getElementById('questionMaker').style.display = 'block';
 }
-function closePopUp(){
+function closePopUp() {
     document.getElementById('questionMaker').style.display = 'none';
+    clearAddQuestionForm();
 }
 
 // Tables
 
-function clearHtmlTable(table){
+function clearHtmlTable(table) {
     let tbl = table;
-    while (tbl.rows.length > 1){
+    while (tbl.rows.length > 1) {
         tbl.deleteRow(1);
     }
 }
 
-function drawTable(){
+function drawTable() {
     const table = document.getElementById('questionTable')
     clearHtmlTable(table);
     questionStorage.getAllQuestions().forEach((el) => {
@@ -33,40 +34,39 @@ function drawTable(){
         const cell3 = row.insertCell(2);
         cell1.innerHTML = el.id;
         cell2.innerHTML = el.questionText;
-        cell3.innerHTML = '<a class="modifie">Izmjeni</a> || <a class="modifie" onclick="showModal(\''+ el.id +'\')">Obriši</a>';
+        cell3.innerHTML = '<a class="modifie" onclick="onQuestionModifie(\'' + el.id + '\')">Izmjeni</a> || <a class="modifie" onclick="showModal(\'' + el.id + '\')">Obriši</a>';
 
     })
 }
 
 // Questions and Answers
 
-function addQuestion() {    
-
-    question.questionText =  document.getElementById('questionText').value;
+function addQuestion() {
+    question.questionText = document.getElementById('questionText').value;
     question.category = document.getElementById('category').value;
     question.img = document.getElementById('questionPicture').value;
 
-    if(question.id){
-        questionStorage.update(qustion);
+    if (question.id) {
+        questionStorage.updateQuestion(question);
     }
-    else
-    {
-          questionStorage.saveQuestion(question);
+    else {
+        questionStorage.saveQuestion(question);
     }
 
     closePopUp();
     clearAddQuestionForm()
     drawTable();
-
-    function clearAddQuestionForm() {
-        document.getElementById('questionText').value = '';
-        document.getElementById('category').value = 'default';
-        document.getElementById('questionPicture').value = '';
-        clearHtmlTable(document.getElementById('answers'));
-    }
+}
+function clearAddQuestionForm() {
+    document.getElementById('questionText').value = '';
+    document.getElementById('category').value = 'default';
+    document.getElementById('questionPicture').value = '';
+    document.getElementById('questionAnswer').value = '';
+    document.getElementById('correctAnswer').checked = false;
+    clearHtmlTable(document.getElementById('answers'));
 }
 
-function addAnswerInTable(){   
+function addAnswerInTable() {
     question.addAnswers({
         answer: document.getElementById('questionAnswer').value,
         correct: document.getElementById('correctAnswer').checked,
@@ -76,7 +76,7 @@ function addAnswerInTable(){
     clearHtmlTable(document.getElementById('answers'));
     displayAnswers();
     document.getElementById('questionAnswer').value = '';
-    document.getElementById('correctAnswer').checked = false;   
+    document.getElementById('correctAnswer').checked = false;
 }
 
 function displayAnswers() {
@@ -90,27 +90,46 @@ function displayAnswers() {
         cell3.innerHTML = '<a class="modifie" onclick="deleteAnswer(\'' + el.answer + '\')">Obriši</a>';
     });
 }
-function deleteAnswer(answer){
-    question.deleteAnswer(answer);    
+function deleteAnswer(answer) {
+    question.deleteAnswer(answer);
     clearHtmlTable(document.getElementById('answers'));
     displayAnswers();
-    
+
 }
 
-function showModal(el){
-    currentQuestionId= el;
-    document.getElementById('deleteQ_modalBox').style.display = 'block'; 
-    }
-function closeModal(){
-    document.getElementById('deleteQ_modalBox').style.display = 'none';
-    currentQuestionId=null;
+function showModal(el) {
+    currentQuestionId = el;
+    document.getElementById('deleteQ_modalBox').style.display = 'block';
 }
-function onYeslClick(){
-     
+function closeModal() {
+    document.getElementById('deleteQ_modalBox').style.display = 'none';
+    currentQuestionId = null;
+}
+function onYeslClick() {
+
     deleteQuestion(currentQuestionId);
     closeModal();
 }
-function deleteQuestion(currentQuestionId){
+function deleteQuestion(currentQuestionId) {
     questionStorage.delete(currentQuestionId);
     drawTable();
 }
+
+
+function fillQuestionForm() {
+    document.getElementById('questionText').value = question.questionText;
+    document.getElementById('category').value = question.category;
+    document.getElementById('questionPicture').value = question.img;
+    displayAnswers();
+    document.getElementById('questionMaker').style.display = 'block';
+}
+
+function onQuestionModifie(questionId) {
+    questionStorage.getAllQuestions().filter((el) => {
+        if (questionId === el.id) {
+            question = Object.assign(new Question, el);
+            fillQuestionForm();
+        }
+    });
+}
+

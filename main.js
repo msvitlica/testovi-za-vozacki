@@ -55,7 +55,7 @@ class Test {
     }
     deleteQuestion(question) {
         this.questions = this.questions.filter((el) => {
-            if(question !== el.id) {
+            if (question !== el.id) {
                 return el;
             }
         })
@@ -75,12 +75,23 @@ class QuestionsStorage {
         let loadData = localStorage.getItem('allQuestions');
         if (loadData) {
             this.allQuestions = JSON.parse(loadData);
-        }       
+        }
         return this.allQuestions;
     }
-    delete(id){
-      this.allQuestions = this.allQuestions.filter((el)=> el.id !== id);
-      localStorage.setItem('allQuestions', JSON.stringify(this.allQuestions));
+    updateQuestion(question) {
+        this.allQuestions.forEach((el) => {
+            if (question.id === el.id) {
+                el.questionText = question.questionText;
+                el.category = question.category;
+                el.img = question.img;
+                el.answers = question.answers;
+            }
+        });
+        localStorage.setItem('allQuestions', JSON.stringify(this.allQuestions));
+    }
+    delete(id) {
+        this.allQuestions = this.allQuestions.filter((el) => el.id !== id);
+        localStorage.setItem('allQuestions', JSON.stringify(this.allQuestions));
     }
 }
 
@@ -88,21 +99,21 @@ class TestStorage {
     constructor() {
         this.allTests = [];
     }
-    saveTest(test){
+    saveTest(test) {
         test.id = uuidv1()
         this.allTests.push(test);
         localStorage.setItem('allTests', JSON.stringify(this.allTests));
     }
-    getAllTests(){
+    getAllTests() {
         let loadTests = localStorage.getItem('allTests');
-        if(loadTests) {
+        if (loadTests) {
             this.allTests = JSON.parse(loadTests);
         }
         return this.allTests
     }
-    deleteTest(test){
+    deleteTest(test) {
         this.allTests = this.allTests.filter((el) => {
-            if(test !== el.id) {
+            if (test !== el.id) {
                 return el;
             }
         });
