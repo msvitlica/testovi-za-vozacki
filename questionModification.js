@@ -13,6 +13,7 @@ function popUpDialog() {
 function closePopUp() {
     document.getElementById('questionMaker').style.display = 'none';
     clearAddQuestionForm();
+    removeClass();
 }
 
 // Tables
@@ -29,6 +30,7 @@ function drawTable() {
     clearHtmlTable(table);
     questionStorage.getAllQuestions().forEach((el) => {
         const row = table.insertRow();
+        row.onclick = function () { return onSelectRow(row) };
         const cell1 = row.insertCell(0);
         const cell2 = row.insertCell(1);
         const cell3 = row.insertCell(2);
@@ -104,6 +106,7 @@ function showModal(el) {
 function closeModal() {
     document.getElementById('deleteQ_modalBox').style.display = 'none';
     currentQuestionId = null;
+    removeClass();
 }
 function onYeslClick() {
 
@@ -131,5 +134,20 @@ function onQuestionModifie(questionId) {
             fillQuestionForm();
         }
     });
+}
+function removeClass() {
+    let table = document.getElementById('questionTable');
+    let rows = table.getElementsByTagName('tr');
+
+    for (let i = 0; i < rows.length; i++) {
+        let row = table.rows[i];
+        if (row.classList.contains('selectedRow')) {
+            row.classList.remove('selectedRow');
+        }
+    }
+}
+function onSelectRow(row) {
+    removeClass();
+    row.classList.add('selectedRow');
 }
 
