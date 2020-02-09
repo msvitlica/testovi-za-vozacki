@@ -102,8 +102,11 @@ function addQuestionInTbl() {
 function onAddQuestionInTbl() {
     test.name = document.getElementById('testName').value;
     test.category = document.getElementById('testCategory').value;
+    if(test.id){
+        testStorage.updateTest(test);
+    } else{
     testStorage.saveTest(test);
-
+    }
     drawTestsTable();
     clearHtmlTable(document.getElementById('pickedQuestionsTbl'));
     clearCreatTestForm();
@@ -118,4 +121,19 @@ function deleteQuestion(question) {
 function onDeleteTestClick(test){
     testStorage.deleteTest(test);
     drawTestsTable();
+}
+function onTestModifie(testId){
+    testStorage.getAllTests().filter((el) => {
+        if (testId === el.id) {
+           test = Object.assign(new Test, el);
+            fillTestForm();
+        }
+    });
+}
+function fillTestForm(){
+    document.getElementById('testName').value= test.name;
+    document.getElementById('testCategory').value= test.category ;
+    fillDropdown();
+    drawQuestionsTable();
+    document.getElementById('testMaker').style.display = 'block';
 }

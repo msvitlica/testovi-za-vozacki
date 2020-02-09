@@ -120,4 +120,13 @@ class TestStorage {
         });
         localStorage.setItem('allTests', JSON.stringify(this.allTests));
     }
+    updateTest(test){
+        this.allTests.forEach((el)=> {
+            if(test.id=== el.id){
+              el.name= test.name;
+              el.category= test.category ;
+            }
+        });
+        localStorage.setItem('allTests', JSON.stringify(this.allTests));
+    }
 }
