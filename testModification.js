@@ -1,10 +1,9 @@
 let test;
 let questionStorage;
 let testStorage;
-
 function onLoad() {
     questionStorage = new QuestionsStorage();
-    testStorage = new TestStorage();
+     testStorage = new TestStorage();
     drawTestsTable();
 }
 function enterTestPopUp() {
@@ -28,7 +27,7 @@ function drawTestsTable(){
         cell1.innerHTML = el.id;
         cell2.innerHTML = el.name;
         cell3.innerHTML = el.category;
-        cell4.innerHTML = '<a class="modifie" onclick="onDeleteTestClick(\'' + el.id + '\')">Obriši</a>';
+        cell4.innerHTML = '<a class="modifie" onclick="onTestModifie(\'' + el.id + '\')">Izmjeni</a>||<a class="modifie" onclick="onDeleteTestClick(\'' + el.id + '\')">Obriši</a>';
     })
 }
 
