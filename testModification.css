@@ -5,7 +5,7 @@ h3{
 table, th, td, tr{
     padding: 10px;
     margin-top: 50px;
-    width: 100%;
+    width:100%;
     table-layout: fixed;
     border-collapse: collapse;
     border: 2px solid black;
@@ -50,9 +50,9 @@ th, tr, td{
     text-decoration: none;
     cursor: pointer;
 }
-.input-box{
+.input [type=text], select, textarea{
     padding: 7px;
-    width: 260px;
+    width:60%;
     border: 1px solid;
     border-radius: 4px;
     outline: none;

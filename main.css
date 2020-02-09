@@ -30,7 +30,7 @@ nav a:hover {
   background-color:rgb(209, 204, 204);
   margin: 20px auto;
   padding: 50px; 
-  width:fit-content;
+  width: fit-content;
 }
 .button {
   background-color: hsla(66, 75%, 52%, 0.938); 
