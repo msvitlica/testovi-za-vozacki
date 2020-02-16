@@ -19,7 +19,8 @@ function drawTestsTable(){
     let tbl = document.getElementById('testsTable');
     clearHtmlTable(tbl);
     testStorage.getAllTests().forEach((el) => {
-        let row = tbl.insertRow();
+         let row = tbl.insertRow();
+         row.onclick = function () { return onSelectRow(row) };
         const cell1 = row.insertCell(0);
         const cell2 = row.insertCell(1);
         const cell3 = row.insertCell(2);
@@ -30,6 +31,7 @@ function drawTestsTable(){
         cell4.innerHTML = '<a class="modifie" onclick="onTestModifie(\'' + el.id + '\')">Izmjeni</a>||<a class="modifie" onclick="onDeleteTestClick(\'' + el.id + '\')">Obriši</a>';
     })
 }
+
 
 function clearHtmlTable(table) {
     let tbl = table;
@@ -136,4 +138,18 @@ function fillTestForm(){
     fillDropdown();
     drawQuestionsTable();
     document.getElementById('testMaker').style.display = 'block';
+}
+function removeClass() {
+    let tbl = document.getElementById('testsTable');
+    let rows = tbl.getElementsByTagName('tr');
+    for (let i = 0; i < rows.length; i++) {
+        let row = tbl.rows[i];
+        if (row.classList.contains('selectedRow')) {
+            row.classList.remove('selectedRow');
+        }
+    }
+}
+function onSelectRow(row) {
+   removeClass();
+   row.classList.add('selectedRow');
 }
