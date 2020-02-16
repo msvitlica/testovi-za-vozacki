@@ -20,7 +20,7 @@ function drawTestsTable(){
     clearHtmlTable(tbl);
     testStorage.getAllTests().forEach((el) => {
          let row = tbl.insertRow();
-         row.onclick = function () { return onSelectRow(row) };
+        row.onclick= function () { return onSelectRow(row) };
         const cell1 = row.insertCell(0);
         const cell2 = row.insertCell(1);
         const cell3 = row.insertCell(2);
@@ -141,13 +141,9 @@ function fillTestForm(){
 }
 function removeClass() {
     let tbl = document.getElementById('testsTable');
-    let rows = tbl.getElementsByTagName('tr');
-    for (let i = 0; i < rows.length; i++) {
-        let row = tbl.rows[i];
-        if (row.classList.contains('selectedRow')) {
-            row.classList.remove('selectedRow');
-        }
-    }
+        [... tbl.getElementsByTagName('tr')].forEach(el=>{
+   el.classList.remove('selectedRow');
+    })
 }
 function onSelectRow(row) {
    removeClass();
