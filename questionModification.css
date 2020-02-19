@@ -137,5 +137,5 @@ input [type=text], select, textarea{
     transition-duration: 0.5s;
 }
 .selectedRow{
-    background-color: red;
+    background-color: hsl(180, 39%, 53%);
 }
