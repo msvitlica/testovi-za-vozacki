@@ -52,6 +52,15 @@ class QuestionsStorage {
         this.allQuestions.push(question);
         localStorage.setItem('allQuestions', JSON.stringify(this.allQuestions));
     }
+    getQuestionById(questionId) {
+        let question;
+        this.allQuestions.forEach((el) => {
+            if (questionId === el.id) {
+                question = el;
+            }
+        });
+        return question;
+    }
     getAllQuestions() {
         let loadData = localStorage.getItem('allQuestions');
         if (loadData) {
@@ -100,11 +109,12 @@ class TestStorage {
         });
         localStorage.setItem('allTests', JSON.stringify(this.allTests));
     }
-    updateTest(test){
-        this.allTests.forEach((el)=> {
-            if(test.id=== el.id){
-              el.name= test.name;
-              el.category= test.category ;
+    updateTest(test) {
+        this.allTests.forEach((el) => {
+            if (test.id === el.id) {
+                el.name = test.name;
+                el.category = test.category;
+                el.questions = test.questions;
             }
         });
         localStorage.setItem('allTests', JSON.stringify(this.allTests));

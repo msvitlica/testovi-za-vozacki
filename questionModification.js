@@ -128,12 +128,8 @@ function fillQuestionForm() {
 }
 
 function onQuestionModifie(questionId) {
-    questionStorage.getAllQuestions().filter((el) => {
-        if (questionId === el.id) {
-            question = Object.assign(new Question, el);
-            fillQuestionForm();
-        }
-    });
+    question = Object.assign(new Question, questionStorage.getQuestionById(questionId));
+    fillQuestionForm();
 }
 function removeClass() {
     let table = document.getElementById('questionTable');
