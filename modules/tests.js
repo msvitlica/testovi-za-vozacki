@@ -63,4 +63,4 @@ class TestStorage {
         localStorage.setItem('allTests', JSON.stringify(this.allTests));
     }
 }
-export { Test, TestStorage };
+export { TestStorage, Test };

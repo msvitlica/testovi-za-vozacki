@@ -2,7 +2,7 @@ let test;
 let questionStorage;
 let testStorage;
 function onLoad() {
-    questionStorage = new QuestionsStorage();
+    questionStorage = new QuestionsStorage;
     testStorage = new TestStorage();
     drawTestsTable();
 }

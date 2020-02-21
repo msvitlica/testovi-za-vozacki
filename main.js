@@ -119,14 +119,13 @@ class TestStorage {
         });
         localStorage.setItem('allTests', JSON.stringify(this.allTests));
     }
-    getTestById(testId){
+    getTestById(testId) {
         let test;
-        this.allTests.find((el) =>{ 
-            if(testId === el.id){
+        this.allTests.find((el) => {
+            if (testId === el.id) {
                 test = el;
             }
         });
         return test;
-    localStorage.setItem('allTests', JSON.stringify(this.allTests));
-}
+    }
 }
