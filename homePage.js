@@ -1,3 +1,4 @@
+let testStorage;
 var selectedTestButton= undefined;
 function onPageLoad() {
      testStorage= new TestStorage();

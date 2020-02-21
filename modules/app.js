@@ -1,0 +1,1 @@
+import { TestStorage, Test } from './modules/tests.js';

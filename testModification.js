@@ -3,7 +3,7 @@ let questionStorage;
 let testStorage;
 function onLoad() {
     questionStorage = new QuestionsStorage();
-     testStorage = new TestStorage();
+    testStorage = new TestStorage();
     drawTestsTable();
 }
 function enterTestPopUp() {
@@ -15,12 +15,12 @@ function closeModalDialog() {
     clearCreatTestForm();
 }
 
-function drawTestsTable(){
+function drawTestsTable() {
     let tbl = document.getElementById('testsTable');
     clearHtmlTable(tbl);
     testStorage.getAllTests().forEach((el) => {
-         let row = tbl.insertRow();
-        row.onclick= function () { return onSelectRow(row) };
+        const row = tbl.insertRow();
+        row.onclick = function () { return onSelectRow(row) };
         const cell1 = row.insertCell(0);
         const cell2 = row.insertCell(1);
         const cell3 = row.insertCell(2);
@@ -46,7 +46,7 @@ function fillDropdown() {
     clearDropDown();
     let newOption = document.getElementById('pickQuestion');
     questionStorage.getAllQuestions().filter((elementForFilter) => {
-        if(document.getElementById('testCategory').value === elementForFilter.category){
+        if (document.getElementById('testCategory').value === elementForFilter.category) {
             return elementForFilter;
         }
     }).forEach((el) => {
@@ -67,7 +67,7 @@ function clearCreatTestForm() {
     document.getElementById('testCategory').value = 'default';
     clearDropDown();
 }
-function drawQuestionsTable(){
+function drawQuestionsTable() {
     const tbl = document.getElementById('pickedQuestionsTbl');
     clearHtmlTable(tbl);
     test.questions.forEach((el, index) => {
@@ -83,7 +83,7 @@ function drawQuestionsTable(){
 function removeFromDropdown(element) {
     let dropdown = document.getElementById('pickQuestion');
     dropdown.childNodes.forEach((el) => {
-        if(element.value === el.value){
+        if (element.value === el.value) {
             dropdown.removeChild(el);
         }
     })
@@ -104,10 +104,10 @@ function addQuestionInTbl() {
 function onAddQuestionInTbl() {
     test.name = document.getElementById('testName').value;
     test.category = document.getElementById('testCategory').value;
-    if(test.id){
+    if (test.id) {
         testStorage.updateTest(test);
-    } else{
-    testStorage.saveTest(test);
+    } else {
+        testStorage.saveTest(test);
     }
     drawTestsTable();
     clearHtmlTable(document.getElementById('pickedQuestionsTbl'));
@@ -120,32 +120,28 @@ function deleteQuestion(question) {
     drawQuestionsTable();
 }
 
-function onDeleteTestClick(test){
+function onDeleteTestClick(test) {
     testStorage.deleteTest(test);
     drawTestsTable();
 }
-function onTestModifie(testId){
-    testStorage.getAllTests().filter((el) => {
-        if (testId === el.id) {
-           test = Object.assign(new Test, el);
-            fillTestForm();
-        }
-    });
+function onTestModifie(testId) {
+    test = Object.assign(new Test, testStorage.getTestById(testId));
+    fillTestForm();
 }
-function fillTestForm(){
-    document.getElementById('testName').value= test.name;
-    document.getElementById('testCategory').value= test.category ;
+function fillTestForm() {
+    document.getElementById('testName').value = test.name;
+    document.getElementById('testCategory').value = test.category;
     fillDropdown();
     drawQuestionsTable();
     document.getElementById('testMaker').style.display = 'block';
 }
 function removeClass() {
     let tbl = document.getElementById('testsTable');
-        [... tbl.getElementsByTagName('tr')].forEach(el=>{
-   el.classList.remove('selectedRow');
+    [...tbl.getElementsByTagName('tr')].forEach(el => {
+        el.classList.remove('selectedRow');
     })
 }
 function onSelectRow(row) {
-   removeClass();
-   row.classList.add('selectedRow');
+    removeClass();
+    row.classList.add('selectedRow');
 }
