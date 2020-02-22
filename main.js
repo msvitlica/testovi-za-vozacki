@@ -119,13 +119,8 @@ class TestStorage {
         });
         localStorage.setItem('allTests', JSON.stringify(this.allTests));
     }
-    getTestById(testId) {
-        let test;
-        this.allTests.find((el) => {
-            if (testId === el.id) {
-                test = el;
-            }
-        });
-        return test;
+    getTestById(testId) {                  
+            return this.allTests.filter(el => el.id === testId).map(e => Object.assign(new Test, e))[0];
+       
     }
 }

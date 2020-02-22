@@ -1,3 +1,4 @@
+
 let test;
 let questionStorage;
 let testStorage;
@@ -125,7 +126,7 @@ function onDeleteTestClick(test) {
     drawTestsTable();
 }
 function onTestModifie(testId) {
-    test = Object.assign(new Test, testStorage.getTestById(testId));
+    test = testStorage.getTestById(testId);
     fillTestForm();
 }
 function fillTestForm() {
