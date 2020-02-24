@@ -46,7 +46,7 @@ function drawTable() {
 function addQuestion() {
     question.questionText = document.getElementById('questionText').value;
     question.category = document.getElementById('category').value;
-    question.img = document.getElementById('questionPicture').value;
+    question.img = document.getElementById();
 
     if (question.id) {
         questionStorage.updateQuestion(question);
@@ -128,7 +128,7 @@ function fillQuestionForm() {
 }
 
 function onQuestionModifie(questionId) {
-    question = Object.assign(new Question, questionStorage.getQuestionById(questionId));
+    question = questionStorage.getQuestionById(questionId);
     fillQuestionForm();
 }
 function removeClass() {
@@ -147,3 +147,17 @@ function onSelectRow(row) {
     row.classList.add('selectedRow');
 }
 
+function imgUrlToBase64(url){
+    let imgBase64;
+    let canvas = document.createElement('canvas');
+    let context = canvas.getContext('2d');
+    let img = new Image();
+    img.src = url;
+    img.onload = function() {
+        canvas.height = img.height;
+        canvas.width = img.width;
+        context.drawImage(img, 0, 0);
+        imgBase64 = canvas.toDataURL('image/jpeg');
+    }
+    return imgBase64;
+}

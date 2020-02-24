@@ -54,7 +54,7 @@ class TestStorage {
     }
 
     getTestById(testId) {               
-       return  this.allTests.filter(el => el.id == testId).map(e => Object.assign(new Test, e));
+       return  this.allTests.filter(el => el.id == testId).map(e => Object.assign(new Test, e))[0];
     }
 }
 export { TestStorage, Test };

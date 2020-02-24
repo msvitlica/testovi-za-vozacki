@@ -6,12 +6,11 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="testModification.css">
     <link rel="stylesheet" href="main.css">
-    <script src="main.js"></script>
-    <script src="testModification.js"></script>
+    <script type="module" src="testModification.js"></script>
     <script src="http://wzrd.in/standalone/uuid%2Fv1@latest"></script>
 </head>
 
-<body class="container" onload="onLoad()">
+<body class="container" id="testModificationBody">
     <nav>
         <a href="homePage.html">Početna strana</a>
         <a href="administration.html">Administracija</a>
@@ -20,7 +19,7 @@
         <div class="testAdministration">
             <h1>Administracija Testova</h1>
             <br>
-            <a href="#" class="createTestBtn" onclick="enterTestPopUp()">Unos Testa</a>
+            <a href="#" class="createTestBtn" id="createTest">Unos Testa</a>
             <br>
             <table id="testsTable">
                 <th>ID</th>
@@ -31,11 +30,11 @@
         </div>
         <div id="testMaker" class="testModal">
             <div class="createTestModal">
-                <span id="closeModalBtn" class="closeModal" onclick="closeModalDialog()">&times;</span>
+                <span id="closeModalBtn" class="closeModal">&times;</span>
                 <h3>Naziv Testa</h3>
                 <input type="text" id="testName" class="input-box">
                 <h3>Izaberi Kategoriju</h3>
-                <select id="testCategory" class="input-box" onchange="fillDropdown()">
+                <select id="testCategory" class="input-box">
                     <option value="default" selected disabled>Izaberi Kategoriju</option>
                     <option value="Kategorija B">Kategorija B</option>
                     <option value="Kategorija C">Kategorija C</option>
@@ -45,14 +44,14 @@
                 <select class="input-box" id="pickQuestion">
                     <option value="default" selected disabled>Izaberi Pitanje</option>
                 </select>
-                <button class="addQuestionInTbl" onclick="addQuestionInTbl()">Dodaj Pitanje</button>
+                <button class="addQuestionInTbl" id="addQuestionInTableBtn">Dodaj Pitanje</button>
                 <table id="pickedQuestionsTbl">
                     <th class="narrow">Redni Broj</th>
                     <th>Pitanje</th>
                     <th>Akcije</th>
                 </table>
                 <br>
-                <button class="saveTestBtn" onclick="onAddQuestionInTbl()">Unesi Test</button>
+                <button class="saveTestBtn" id="addTestBtn">Unesi Test</button>
             </div>
         </div>
     </div>

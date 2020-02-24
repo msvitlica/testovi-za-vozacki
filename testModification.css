@@ -97,11 +97,11 @@ th, tr, td{
     cursor: pointer;
     transition-duration: 0.5s;
 }
-.modifie{
+.modify{
     color: black;
     text-decoration: none;
 }
-.modifie:hover{
+.modify:hover{
     color: blue;
     text-decoration: underline;
     cursor: pointer;

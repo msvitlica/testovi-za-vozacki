@@ -1,7 +1,3 @@
-
-
-// Class for manipulating witsthis.allQuestions
-
 class Question {
     constructor() {
         this.questionText;
@@ -63,3 +59,4 @@ class QuestionsStorage {
         localStorage.setItem('allQuestions', JSON.stringify(this.allQuestions));
     }
 }
+export { Question, QuestionsStorage };

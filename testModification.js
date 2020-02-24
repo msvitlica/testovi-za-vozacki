@@ -1,7 +1,29 @@
-
+import { Test, TestStorage } from './modules/tests.js';
+import { QuestionsStorage } from './modules/question.js';
 let test;
 let questionStorage;
 let testStorage;
+
+// Loading elements from HTMl
+
+const body = document.getElementById('testModificationBody');
+const createTest = document.getElementById('createTest');
+const addQuestionBtn = document.getElementById('addQuestionInTableBtn');
+const addTestBtn = document.getElementById('addTestBtn');
+const closeModalBtn = document.getElementById('closeModalBtn');
+const onTestCategoryChange = document.getElementById('testCategory');
+
+// Setting Event Listeners 
+
+body.addEventListener('load', onLoad());
+createTest.addEventListener('click', enterTestPopUp);
+addQuestionBtn.addEventListener('click', addQuestionInTbl);
+addTestBtn.addEventListener('click', onAddTestInTbl);
+closeModalBtn.addEventListener('click', closeModalDialog);
+onTestCategoryChange.addEventListener('change', fillDropdown);
+
+// Function for manipulating with Test
+
 function onLoad() {
     questionStorage = new QuestionsStorage;
     testStorage = new TestStorage();
@@ -29,8 +51,12 @@ function drawTestsTable() {
         cell1.innerHTML = el.id;
         cell2.innerHTML = el.name;
         cell3.innerHTML = el.category;
-        cell4.innerHTML = '<a class="modifie" onclick="onTestModifie(\'' + el.id + '\')">Izmjeni</a>||<a class="modifie" onclick="onDeleteTestClick(\'' + el.id + '\')">Obriši</a>';
-    })
+        cell4.innerHTML = '<a class="modify" id="modify' + el.id + '">Izmjeni</a>||<a class="modify" id="delete' + el.id + '">Obriši</a>';
+        const onTestModify = document.getElementById('modify' + el.id);
+        const onTestDelete = document.getElementById('delete' + el.id);
+        onTestModify.addEventListener('click', function () { onTestModifie(el.id) });
+        onTestDelete.addEventListener('click', function () { onDeleteTestClick(el.id) });
+    });
 }
 
 
@@ -78,7 +104,9 @@ function drawQuestionsTable() {
         const cell3 = row.insertCell(2);
         cell1.innerHTML = index + 1;
         cell2.innerHTML = el.questionText;
-        cell3.innerHTML = '<a href="#" class="modifie" onclick="deleteQuestion(\'' + el.id + '\')">Obriši</a>';
+        cell3.innerHTML = '<a href="#" class="modify" id="delete' + el.id + '">Obriši</a>';
+        const onQuestionDelete = document.getElementById('delete' + el.id);
+        onQuestionDelete.addEventListener('click', function () { deleteQuestion(el.id) });
     })
 }
 function removeFromDropdown(element) {
@@ -102,7 +130,7 @@ function addQuestionInTbl() {
     tempQuestion.value = 'default';
 }
 
-function onAddQuestionInTbl() {
+function onAddTestInTbl() {
     test.name = document.getElementById('testName').value;
     test.category = document.getElementById('testCategory').value;
     if (test.id) {
