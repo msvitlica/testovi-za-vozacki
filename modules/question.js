@@ -28,13 +28,7 @@ class QuestionsStorage {
         localStorage.setItem('allQuestions', JSON.stringify(this.allQuestions));
     }
     getQuestionById(questionId) {
-        let question;
-        this.allQuestions.forEach((el) => {
-            if (questionId === el.id) {
-                question = Object.assign(new Question ,el);
-            }
-        });
-        return question;
+        return  this.allQuestions.filter(el => el.id == questionId).map(e => Object.assign(new Question, e))[0];
     }
     getAllQuestions() {
         let loadData = localStorage.getItem('allQuestions');

@@ -6,12 +6,11 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="questionModification.css">
     <link rel="stylesheet" href="main.css">
-    <script src="questionModification.js"></script>
-    <script src="main.js"></script>
+    <script type="module" src="questionModification.js"></script>
     <script src="http://wzrd.in/standalone/uuid%2Fv1@latest"></script>
 </head>
 
-<body class="container" onload="onLoad()">
+<body  id ="body" class="container">
     <nav>
         <a href="homePage.html">Početna strana</a>
         <a href="administration.html">Administracija</a>
@@ -20,7 +19,7 @@
         <div>
             <div class="questionModifcation">
                 <h1>Administracija Pitanja</h1>
-                <a href="#" class="createQuestionBtn" onclick="popUpDialog()">Novo Pitanje</a>
+                <a href="#" id ="createQuestionBtn" class="createQuestionBtn">Novo Pitanje</a>
                 <table id="questionTable">
                     <th>ID</th>
                     <th>Tekst Pitanja</th>
@@ -31,7 +30,7 @@
     </div>
     <div id="questionMaker">
         <div class="createQuestion">
-            <span id="closeBtn" class="close" onclick="closePopUp()">&times;</span>
+            <span id="closeBtn" class="close">&times;</span>
             <h3>Unesite tekst pitanja:</h3>
             <textarea id="questionText" cols="50" rows="10" placeholder="Unesite tekst pitanja"></textarea>
             <h3>Kategorija:</h3>
@@ -47,21 +46,21 @@
             <input type="text" class="input-box" id="questionAnswer">
             <input type="checkbox" class="correct-box" id="correctAnswer">
             <label>Tačan ?</label>
-            <button id="addAnswer" class="addAnswer" onclick="addAnswerInTable()">Dodaj odgovor</button>
+            <button id="addAnswer" class="addAnswer">Dodaj odgovor</button>
             <table id="answers" class="answersTable">
                 <th>Odgovor</th>
                 <th>Tačno?</th>
                 <th>Akcije</th>
             </table>
             <br>
-            <button class="saveQuestion" onclick="addQuestion()">Sačuvaj Pitanje</button>
+            <button  id="saveQuestion" class="saveQuestion" >Sačuvaj Pitanje</button>
         </div>
     </div>
     <div id="deleteQ_modalBox">
         <div class="questionEraser">
             <h3>Zelite li da obrisete ovo pitanje?</h3>
-            <button id="yes" class="eraseQuestion" onclick="onYeslClick()">DA</button>
-            <button class="eraseQuestion" onclick="closeModal()">NE</button>
+            <button id="yes" class="eraseQuestion">DA</button>
+            <button id= "no" class="eraseQuestion">NE</button>
         </div>
     </div>
 

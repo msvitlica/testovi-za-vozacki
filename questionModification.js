@@ -1,8 +1,28 @@
+
+import { Question,QuestionsStorage } from './modules/question.js';
+
 let question;
 let questionStorage;
 let currentQuestionId;
+let body= document.getElementById('body');
+let popUpQuestion= document.getElementById("createQuestionBtn");
+let closePopUpQuestion=document.getElementById("closeBtn");
+let addAInTable=document.getElementById("addAnswer");
+let saveQ=document.getElementById("saveQuestion");
+let onClickEraseAnswer= document.getElementById("yes");
+let onClickCloseModal= document.getElementById("no");
+
+body.addEventListener('load',onLoad());
+popUpQuestion.addEventListener('click',popUpDialog);
+closePopUpQuestion.addEventListener('click',closePopUp);
+addAInTable.addEventListener('click', addAnswerInTable);
+saveQ.addEventListener('click',addQuestion);
+onClickEraseAnswer.addEventListener('click',onYeslClick);
+onClickCloseModal.addEventListener('click',closeModal);
+
 function onLoad() {
     questionStorage = new QuestionsStorage();
+    question = new Question();
     drawTable();
 }
 
@@ -36,9 +56,12 @@ function drawTable() {
         const cell3 = row.insertCell(2);
         cell1.innerHTML = el.id;
         cell2.innerHTML = el.questionText;
-        cell3.innerHTML = '<a class="modifie" onclick="onQuestionModifie(\'' + el.id + '\')">Izmjeni</a> || <a class="modifie" onclick="showModal(\'' + el.id + '\')">Obriši</a>';
-
-    })
+        cell3.innerHTML = '<a class="modifie" id="modify' + el.id + '">Izmjeni</a> || <a class="modifie" id= "delete'+ el.id +'">Obriši</a>';
+        let qModify= document.getElementById('modify'+ el.id);
+        let qDelete= document.getElementById('delete'+ el.id);
+        qModify.addEventListener('click',()=>{onQuestionModifie(el.id) });
+        qDelete.addEventListener('click', ()=>{showModal(el.id) });
+    });
 }
 
 // Questions and Answers
@@ -46,7 +69,7 @@ function drawTable() {
 function addQuestion() {
     question.questionText = document.getElementById('questionText').value;
     question.category = document.getElementById('category').value;
-    question.img = document.getElementById();
+    //question.img = document.getElementById();
 
     if (question.id) {
         questionStorage.updateQuestion(question);
@@ -89,7 +112,9 @@ function displayAnswers() {
         const cell3 = row.insertCell(2);
         cell1.innerHTML = el.answer;
         cell2.innerHTML = el.tačno;
-        cell3.innerHTML = '<a class="modifie" onclick="deleteAnswer(\'' + el.answer + '\')">Obriši</a>';
+        cell3.innerHTML = '<a class="modifie" id= "delAnswer' + el.answer+ '">Obriši</a>';
+        let delAnswer= document.getElementById('delAnswer' +el.answer);
+        delAnswer.addEventListener('click',()=>{deleteAnswer(el.answer) });
     });
 }
 function deleteAnswer(answer) {
@@ -109,7 +134,6 @@ function closeModal() {
     removeClass();
 }
 function onYeslClick() {
-
     deleteQuestion(currentQuestionId);
     closeModal();
 }
