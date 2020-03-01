@@ -5,6 +5,7 @@ class Question {
         this.category;
         this.img;
         this.id;
+        this.point;
     }
     addAnswers(answer) {
         this.answers.push(answer);
@@ -44,6 +45,7 @@ class QuestionsStorage {
                 el.category = question.category;
                 el.img = question.img;
                 el.answers = question.answers;
+                el.point= question.point;
             }
         });
         localStorage.setItem('allQuestions', JSON.stringify(this.allQuestions));

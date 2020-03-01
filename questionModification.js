@@ -54,9 +54,12 @@ function drawTable() {
         const cell1 = row.insertCell(0);
         const cell2 = row.insertCell(1);
         const cell3 = row.insertCell(2);
+        const cell4 = row.insertCell(3);
         cell1.innerHTML = el.id;
         cell2.innerHTML = el.questionText;
-        cell3.innerHTML = '<a class="modifie" id="modify' + el.id + '">Izmjeni</a> || <a class="modifie" id= "delete'+ el.id +'">Obriši</a>';
+        cell3.innerHTML= el.point;
+        cell4.innerHTML = '<a class="modifie" id="modify' + el.id + '">Izmjeni</a> || <a class="modifie" id= "delete'+ el.id +'">Obriši</a>';
+        
         let qModify= document.getElementById('modify'+ el.id);
         let qDelete= document.getElementById('delete'+ el.id);
         qModify.addEventListener('click',()=>{onQuestionModifie(el.id) });
@@ -69,6 +72,7 @@ function drawTable() {
 function addQuestion() {
     question.questionText = document.getElementById('questionText').value;
     question.category = document.getElementById('category').value;
+    question.point= document.getElementById("points").value;
     //question.img = document.getElementById();
 
     if (question.id) {
@@ -95,7 +99,8 @@ function addAnswerInTable() {
     question.addAnswers({
         answer: document.getElementById('questionAnswer').value,
         correct: document.getElementById('correctAnswer').checked,
-        tačno: document.getElementById('correctAnswer').checked ? 'Da' : 'Ne'
+        tačno: document.getElementById('correctAnswer').checked ? 'Da' : 'Ne',
+        
     });
 
     clearHtmlTable(document.getElementById('answers'));
@@ -114,9 +119,10 @@ function displayAnswers() {
         cell2.innerHTML = el.tačno;
         cell3.innerHTML = '<a class="modifie" id= "delAnswer' + el.answer+ '">Obriši</a>';
         let delAnswer= document.getElementById('delAnswer' +el.answer);
-        delAnswer.addEventListener('click',()=>{deleteAnswer(el.answer) });
+        delAnswer.addEventListener('click',()=>{deleteAnswer(el.answer)});
     });
 }
+
 function deleteAnswer(answer) {
     question.deleteAnswer(answer);
     clearHtmlTable(document.getElementById('answers'));
@@ -147,6 +153,7 @@ function fillQuestionForm() {
     document.getElementById('questionText').value = question.questionText;
     document.getElementById('category').value = question.category;
     document.getElementById('questionPicture').value = question.img;
+    document.getElementById("points").value =  question.point;
     displayAnswers();
     document.getElementById('questionMaker').style.display = 'block';
 }
