@@ -1,24 +1,24 @@
 
-import { Question,QuestionsStorage } from './modules/question.js';
+import { Question, QuestionsStorage } from './modules/question.js';
 
 let question;
 let questionStorage;
 let currentQuestionId;
-let body= document.getElementById('body');
-let popUpQuestion= document.getElementById("createQuestionBtn");
-let closePopUpQuestion=document.getElementById("closeBtn");
-let addAInTable=document.getElementById("addAnswer");
-let saveQ=document.getElementById("saveQuestion");
-let onClickEraseAnswer= document.getElementById("yes");
-let onClickCloseModal= document.getElementById("no");
+let body = document.getElementById('body');
+let popUpQuestion = document.getElementById("createQuestionBtn");
+let closePopUpQuestion = document.getElementById("closeBtn");
+let addAInTable = document.getElementById("addAnswer");
+let saveQ = document.getElementById("saveQuestion");
+let onClickEraseAnswer = document.getElementById("yes");
+let onClickCloseModal = document.getElementById("no");
 
-body.addEventListener('load',onLoad());
-popUpQuestion.addEventListener('click',popUpDialog);
-closePopUpQuestion.addEventListener('click',closePopUp);
+body.addEventListener('load', onLoad());
+popUpQuestion.addEventListener('click', popUpDialog);
+closePopUpQuestion.addEventListener('click', closePopUp);
 addAInTable.addEventListener('click', addAnswerInTable);
-saveQ.addEventListener('click',addQuestion);
-onClickEraseAnswer.addEventListener('click',onYeslClick);
-onClickCloseModal.addEventListener('click',closeModal);
+saveQ.addEventListener('click', addQuestion);
+onClickEraseAnswer.addEventListener('click', onYeslClick);
+onClickCloseModal.addEventListener('click', closeModal);
 
 function onLoad() {
     questionStorage = new QuestionsStorage();
@@ -57,13 +57,13 @@ function drawTable() {
         const cell4 = row.insertCell(3);
         cell1.innerHTML = el.id;
         cell2.innerHTML = el.questionText;
-        cell3.innerHTML= el.point;
-        cell4.innerHTML = '<a class="modifie" id="modify' + el.id + '">Izmjeni</a> || <a class="modifie" id= "delete'+ el.id +'">Obriši</a>';
-        
-        let qModify= document.getElementById('modify'+ el.id);
-        let qDelete= document.getElementById('delete'+ el.id);
-        qModify.addEventListener('click',()=>{onQuestionModifie(el.id) });
-        qDelete.addEventListener('click', ()=>{showModal(el.id) });
+        cell3.innerHTML = el.point;
+        cell4.innerHTML = '<a class="modifie" id="modify' + el.id + '">Izmjeni</a> || <a class="modifie" id= "delete' + el.id + '">Obriši</a>';
+
+        let qModify = document.getElementById('modify' + el.id);
+        let qDelete = document.getElementById('delete' + el.id);
+        qModify.addEventListener('click', () => { onQuestionModifie(el.id) });
+        qDelete.addEventListener('click', () => { showModal(el.id) });
     });
 }
 
@@ -72,8 +72,8 @@ function drawTable() {
 function addQuestion() {
     question.questionText = document.getElementById('questionText').value;
     question.category = document.getElementById('category').value;
-    question.point= document.getElementById("points").value;
-    //question.img = document.getElementById();
+    question.point = document.getElementById("points").value;
+    question.img = imgUrlToBase64(document.getElementById('questionPicture').value);
 
     if (question.id) {
         questionStorage.updateQuestion(question);
@@ -100,7 +100,7 @@ function addAnswerInTable() {
         answer: document.getElementById('questionAnswer').value,
         correct: document.getElementById('correctAnswer').checked,
         tačno: document.getElementById('correctAnswer').checked ? 'Da' : 'Ne',
-        
+
     });
 
     clearHtmlTable(document.getElementById('answers'));
@@ -117,9 +117,9 @@ function displayAnswers() {
         const cell3 = row.insertCell(2);
         cell1.innerHTML = el.answer;
         cell2.innerHTML = el.tačno;
-        cell3.innerHTML = '<a class="modifie" id= "delAnswer' + el.answer+ '">Obriši</a>';
-        let delAnswer= document.getElementById('delAnswer' +el.answer);
-        delAnswer.addEventListener('click',()=>{deleteAnswer(el.answer)});
+        cell3.innerHTML = '<a class="modifie" id= "delAnswer' + el.answer + '">Obriši</a>';
+        let delAnswer = document.getElementById('delAnswer' + el.answer);
+        delAnswer.addEventListener('click', () => { deleteAnswer(el.answer) });
     });
 }
 
@@ -153,7 +153,7 @@ function fillQuestionForm() {
     document.getElementById('questionText').value = question.questionText;
     document.getElementById('category').value = question.category;
     document.getElementById('questionPicture').value = question.img;
-    document.getElementById("points").value =  question.point;
+    document.getElementById("points").value = question.point;
     displayAnswers();
     document.getElementById('questionMaker').style.display = 'block';
 }
@@ -178,17 +178,21 @@ function onSelectRow(row) {
     row.classList.add('selectedRow');
 }
 
-function imgUrlToBase64(url){
+function imgUrlToBase64(url, callback) {
     let imgBase64;
-    let canvas = document.createElement('canvas');
-    let context = canvas.getContext('2d');
-    let img = new Image();
-    img.src = url;
-    img.onload = function() {
-        canvas.height = img.height;
-        canvas.width = img.width;
-        context.drawImage(img, 0, 0);
-        imgBase64 = canvas.toDataURL('image/jpeg');
-    }
+    let xhttp = new XMLHttpRequest();
+
+    xhttp.onload = function () {
+        let fileReader = new fileReader();
+        fileReader.onloadend = function () {
+            imgBase64 = fileReader.result;
+        };
+        fileReader.readAsDataUrl(xhttp.response);
+    };
+
+    xhttp.responseType = 'blob';
+    xhttp.open('GET', url, true);
+    xhttp.send();
+    
     return imgBase64;
 }

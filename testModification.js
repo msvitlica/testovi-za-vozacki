@@ -93,6 +93,7 @@ function clearCreatTestForm() {
     document.getElementById('testName').value = '';
     document.getElementById('testCategory').value = 'default';
     clearDropDown();
+    clearHtmlTable(document.getElementById('pickedQuestionsTbl'));
 }
 function drawQuestionsTable() {
     const tbl = document.getElementById('pickedQuestionsTbl');
