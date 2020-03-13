@@ -5,7 +5,7 @@ var selectedTestButton;
 function onPageLoad() {
     testStorage = new TestStorage();
     testStorage.getAllTests().filter(el => el.category === 'Kategorija B').forEach(el => {
-        document.getElementById('testHolder1').innerHTML += '<button class= "button">' + el.name + '</button>'
+        document.getElementById('testHolder1').innerHTML += '<button class= "button" id="' + el.id +'">' + el.name + '</button>'
     });
     testStorage.getAllTests().filter(el => el.category === 'Kategorija C').forEach(el => {
         document.getElementById('testHolder2').innerHTML += '<button class= "button">' + el.name + '</button>'
@@ -18,13 +18,13 @@ function onPageLoad() {
             [...document.getElementsByClassName("button")].forEach(button =>
                 button.classList.remove("selected_button")),
                 button.classList.add("selected_button"),
-                selectedTestButton = button.innerHTML;
+                selectedTestButton = button.id;
         })
     });
 }
 function clickStartButton() {
-    alert(selectedTestButton);
-
+    window.document.location = "testExecution.html?parameter=" + selectedTestButton;
+    window.location = "./testExecution.html";
 }
 
 const body = document.getElementById('body');
