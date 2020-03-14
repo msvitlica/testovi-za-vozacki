@@ -23,8 +23,8 @@ function onPageLoad() {
     });
 }
 function clickStartButton() {
-    window.document.location = "testExecution.html?parameter=" + selectedTestButton;
-    window.location = "./testExecution.html";
+    //window.document.location = "testExecution.html?parameter=" + selectedTestButton;
+    window.location = "./testExecution.html?parameter=" + selectedTestButton;
 }
 
 const body = document.getElementById('body');

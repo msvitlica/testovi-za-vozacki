@@ -32,7 +32,7 @@ class TestStorage {
         if (loadTests) {
             this.allTests = JSON.parse(loadTests);
         }
-        return this.allTests
+        return this.allTests;
     }
     deleteTest(test) {
         this.allTests = this.allTests.filter((el) => {
