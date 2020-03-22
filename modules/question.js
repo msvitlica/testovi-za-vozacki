@@ -17,9 +17,15 @@ class Question {
             }
         })
     }
-}
 
-class QuestionsStorage {
+    hasMultipleCorrectAnswers(){
+      if(this.answers.filter(a => a.correct === true).length > 1){
+          return true;
+      }
+      return false;
+    }
+}
+ class QuestionsStorage {
     constructor() {
         this.allQuestions = [];
     }
@@ -54,5 +60,7 @@ class QuestionsStorage {
         this.allQuestions = this.allQuestions.filter((el) => el.id !== id);
         localStorage.setItem('allQuestions', JSON.stringify(this.allQuestions));
     }
+
+    
 }
 export { Question, QuestionsStorage };
