@@ -1,35 +1,49 @@
 import { TestStorage } from './modules/tests.js';
-import {QuestionsStorage, Question} from './modules/question.js';
+import { QuestionsStorage, Question } from './modules/question.js';
+import { QuestionsAnswers } from './modules/answers.js';
+let test, testStorage, questionStorage, questionsAnswers;
 
-let body = document.getElementById('body');
-
-body.addEventListener('load', onLoad());
+window.addEventListener('load', onLoad);
 
 function onLoad() {
-    let testStorage = new TestStorage();
-    let questionStorage = new QuestionsStorage();
+    testStorage = new TestStorage();
+    questionStorage = new QuestionsStorage();
+    questionsAnswers = new QuestionsAnswers();
     questionStorage.getAllQuestions();
     testStorage.getAllTests();
     let urlParameters = new URLSearchParams(window.location.search);
     let parameter = urlParameters.get('parameter');
-    let test = testStorage.getTestById(parameter);
-    
-    let content = document.getElementById('content');
+    test = testStorage.getTestById(parameter);
+    loadTest();
+}
+function loadTest() {
+    let testContent = document.getElementById('content');
 
-    test.questions.forEach( (element, index) => {
-        content.innerHTML += '<div class="questions" id="question' + index +'"><p>' + element.questionText;
+    test.questions.forEach((questionElement, questionIndex) => {
+        let question = questionStorage.getQuestionById(questionElement.id);
+        let div = document.createElement('div');
 
-        let question = questionStorage.getQuestionById(element.id);
+        testContent.innerHTML += '<div id="question' + (questionIndex + 1) + '" class="questions"><p>' + questionElement.questionText + '</p></div>';
+        let answerContent = document.getElementById('question' + (questionIndex + 1)).appendChild(div);
+        answerContent.classList = 'answers' + questionElement.id;
 
-        if(question.hasMultipleCorrectAnswers()){
-            content.innerHTML+='<p>vise tacnih</p>'; 
+        if (question.hasMultipleCorrectAnswers()) {
+            question.answers.forEach((answerElement, answerIndex) => {
+                answerContent.innerHTML += '<div><input type="checkbox" id="' + questionElement.id + '_answer_' + answerIndex + '" name="answer' + questionElement.id + '" value="' + answerElement.correct + '">< for="' + questionElement.id + '_answer_' + answerIndex + '">' + answerElement.answer + '</label></div>';
+                let eventHandler = document.getElementById(questionElement.id + '_answer_' + answerIndex);
+                eventHandler.addEventListener('change', () => { onAnswerClick(questionElement.id) });
+            });
         }
-        else{
-            content.innerHTML+='<p>jedan tacan</p>'; 
+        else {
+            question.answers.forEach((answerElement, answerIndex) => {
+                answerContent.innerHTML += '<div><input type="radio" id="' + questionElement.id + '_answer_' + answerIndex + '" name="answer' + questionElement.id + '" value="' + answerElement.correct + '"><label for="' + questionElement.id + '_answer_' + answerIndex + '">' + answerElement.answer + '</label></div>';
+                let eventHandler = document.getElementById(questionElement.id + '_answer_' + answerIndex);
+                eventHandler.addEventListener('change', () => { onAnswerClick(questionElement.id) });
+            });
         }
-        
-        
-        content.innerHTML+='</p></div>'; 
-
     });
+}
+function onAnswerClick(id) {
+    let question = questionStorage.getQuestionById(id);
+    console.log(question);
 }

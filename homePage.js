@@ -31,4 +31,4 @@ const body = document.getElementById('body');
 const startBtn = document.getElementById('start');
 
 startBtn.addEventListener('click', clickStartButton);
-body.addEventListener('load', onPageLoad());
+window.addEventListener('load', onPageLoad);

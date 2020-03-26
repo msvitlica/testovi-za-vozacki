@@ -15,7 +15,7 @@ const onTestCategoryChange = document.getElementById('testCategory');
 
 // Setting Event Listeners 
 
-body.addEventListener('load', onLoad());
+window.addEventListener('load', onLoad);
 createTest.addEventListener('click', enterTestPopUp);
 addQuestionBtn.addEventListener('click', addQuestionInTbl);
 addTestBtn.addEventListener('click', onAddTestInTbl);

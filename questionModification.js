@@ -4,7 +4,6 @@ import { Question, QuestionsStorage } from './modules/question.js';
 let question;
 let questionStorage;
 let currentQuestionId;
-let body = document.getElementById('body');
 let popUpQuestion = document.getElementById("createQuestionBtn");
 let closePopUpQuestion = document.getElementById("closeBtn");
 let addAInTable = document.getElementById("addAnswer");
@@ -12,7 +11,7 @@ let saveQ = document.getElementById("saveQuestion");
 let onClickEraseAnswer = document.getElementById("yes");
 let onClickCloseModal = document.getElementById("no");
 
-body.addEventListener('load', onLoad());
+window.addEventListener('load', onLoad);
 popUpQuestion.addEventListener('click', popUpDialog);
 closePopUpQuestion.addEventListener('click', closePopUp);
 addAInTable.addEventListener('click', addAnswerInTable);
