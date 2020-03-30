@@ -29,7 +29,6 @@ function loadTest() {
         questionDiv.appendChild(questionText);
         testContent.appendChild(questionDiv);
 
-        //testContent.innerHTML += '<div id="question' + (questionIndex + 1) + '" class="questions"><p>' + questionElement.questionText + '</p></div>';
         let answerContent = document.getElementById('question' + (questionIndex + 1)).appendChild(document.createElement('div'));
         answerContent.id = 'answersFor' + questionElement.id;
 
@@ -70,11 +69,27 @@ function loadTest() {
     });
 }
 function onAnswerClick(id, valueOfAnswer) {
-    questionsAnswers.addAnswer(
-        {
+    let question = questionStorage.getQuestionById(id);
+
+    if (!questionsAnswers.getAnswerById(id)) {
+        questionsAnswers.addAnswer({
             id: id,
-            correct: valueOfAnswer
+            answer: valueOfAnswer
+        });
+    }
+    else {
+        if (question.hasMultipleCorrectAnswers()) {
+            questionsAnswers.updateCheckBoxAnswer({
+                id: id,
+                answer: valueOfAnswer
+            });
         }
-    )
+        else {
+            questionsAnswers.updateRadioAnswer({
+                id: id,
+                answer: valueOfAnswer
+            });
+        }
+    }
     console.log(questionsAnswers.answers);
 }
