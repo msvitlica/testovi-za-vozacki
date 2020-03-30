@@ -95,10 +95,10 @@ function onBtnFinishClick(){
     questionsAnswers.answers.forEach(a =>{
         var questionDiv = document.getElementById('question'+a.id);
         if(JSON.parse(a.correct)){
-         questionDiv.setAttribute('class', 'question-correct');
+         questionDiv.style.backgroundColor = "green";
         }
         else{
-            questionDiv.setAttribute('class', 'question-wrong');
+            questionDiv.style.backgroundColor = "red";
         }
     });
 }

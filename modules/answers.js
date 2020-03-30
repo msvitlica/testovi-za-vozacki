@@ -3,9 +3,11 @@ class QuestionsAnswers {
         this.answers = [];
     }
     addAnswer(answer){
-        let existingAnswer = this.answers.find(a => a.id === answer.id)
-        if(existingAnswer){
-            existingAnswer = answer;
+        const index = this.answers.findIndex(a => a.id === answer.id);
+        if(index !== -1){
+           
+            this.answers.splice(index, 1);
+            this.answers.push(answer);           
         }
         else
         {

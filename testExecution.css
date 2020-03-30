@@ -5,11 +5,3 @@
     border-radius: 3px;
     border: solid;
 }
-
-.question-correct{
-    background-color: green;
-}
-
-.question-wrong{
-    background-color: red;
-}
