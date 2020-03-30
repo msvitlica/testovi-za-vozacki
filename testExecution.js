@@ -21,8 +21,15 @@ function loadTest() {
 
     test.questions.forEach((questionElement, questionIndex) => {
         let question = questionStorage.getQuestionById(questionElement.id);
+        let questionDiv = document.createElement('div');
+        let questionText = document.createElement('p');
+        questionDiv.setAttribute('id', 'question' + (questionIndex + 1));
+        questionDiv.setAttribute('class', 'questions');
+        questionText.innerHTML = questionElement.questionText;
+        questionDiv.appendChild(questionText);
+        testContent.appendChild(questionDiv);
 
-        testContent.innerHTML += '<div id="question' + (questionIndex + 1) + '" class="questions"><p>' + questionElement.questionText + '</p></div>';
+        //testContent.innerHTML += '<div id="question' + (questionIndex + 1) + '" class="questions"><p>' + questionElement.questionText + '</p></div>';
         let answerContent = document.getElementById('question' + (questionIndex + 1)).appendChild(document.createElement('div'));
         answerContent.id = 'answersFor' + questionElement.id;
 
