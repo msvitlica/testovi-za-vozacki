@@ -3,8 +3,14 @@ class QuestionsAnswers {
         this.answers = [];
     }
     addAnswer(answer){
-        this.answers.push(answer);
-        localStorage.setItem('questionAnswers', JSON.stringify(this.answers));
+        let existingAnswer = this.answers.find(a => a.id === answer.id)
+        if(existingAnswer){
+            existingAnswer = answer;
+        }
+        else
+        {
+           this.answers.push(answer);
+        }       
     }
     updateAnswer(answer){
 

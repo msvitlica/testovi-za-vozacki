@@ -4,6 +4,10 @@ import { QuestionsAnswers } from './modules/answers.js';
 let test, testStorage, questionStorage, questionsAnswers;
 
 window.addEventListener('load', onLoad);
+let button = document.getElementById('btnFinish');
+button.addEventListener('click', onBtnFinishClick);
+
+
 
 function onLoad() {
     testStorage = new TestStorage();
@@ -19,18 +23,26 @@ function onLoad() {
 function loadTest() {
     let testContent = document.getElementById('content');
 
-    test.questions.forEach((questionElement, questionIndex) => {
+    test.questions.forEach((questionElement, questionIndex) =>
+    {
         let question = questionStorage.getQuestionById(questionElement.id);
+        
         let questionDiv = document.createElement('div');
+        
+        /* Create <p> for text question */
         let questionText = document.createElement('p');
-        questionDiv.setAttribute('id', 'question' + (questionIndex + 1));
-        questionDiv.setAttribute('class', 'questions');
         questionText.innerHTML = questionElement.questionText;
+        
+        /* generate Id for <div> for question content */
+        let questionDivId = 'question'+questionElement.id;
+
+        questionDiv.setAttribute('id', questionDivId);
+        questionDiv.setAttribute('class', 'questions');        
+        
         questionDiv.appendChild(questionText);
         testContent.appendChild(questionDiv);
-
-        //testContent.innerHTML += '<div id="question' + (questionIndex + 1) + '" class="questions"><p>' + questionElement.questionText + '</p></div>';
-        let answerContent = document.getElementById('question' + (questionIndex + 1)).appendChild(document.createElement('div'));
+        
+        let answerContent = questionDiv.appendChild(document.createElement('div'));
         answerContent.id = 'answersFor' + questionElement.id;
 
         if (!question.hasMultipleCorrectAnswers()) {
@@ -77,4 +89,16 @@ function onAnswerClick(id, valueOfAnswer) {
         }
     )
     console.log(questionsAnswers.answers);
+}
+
+function onBtnFinishClick(){
+    questionsAnswers.answers.forEach(a =>{
+        var questionDiv = document.getElementById('question'+a.id);
+        if(JSON.parse(a.correct)){
+         questionDiv.setAttribute('class', 'question-correct');
+        }
+        else{
+            questionDiv.setAttribute('class', 'question-wrong');
+        }
+    });
 }
