@@ -38,10 +38,10 @@ function loadTest() {
 
         questionDiv.setAttribute('id', questionDivId);
         questionDiv.setAttribute('class', 'questions');        
-        
+
         questionDiv.appendChild(questionText);
         testContent.appendChild(questionDiv);
-        
+
         let answerContent = questionDiv.appendChild(document.createElement('div'));
         answerContent.id = 'answersFor' + questionElement.id;
 
@@ -79,6 +79,7 @@ function loadTest() {
                 checkbox.addEventListener('change', () => { onAnswerClick(questionElement.id, checkbox.value) });
             });
         }
+        displayQuestPerPage();
     });
 }
 function onAnswerClick(id, valueOfAnswer) {
@@ -88,7 +89,7 @@ function onAnswerClick(id, valueOfAnswer) {
             correct: valueOfAnswer
         }
     )
-    console.log(questionsAnswers.answers);
+    
 }
 
 function onBtnFinishClick(){
@@ -102,3 +103,16 @@ function onBtnFinishClick(){
         }
     });
 }
+function displayQuestPerPage() {
+    let questionsPerPage, i;
+    questionsPerPage= document.querySelectorAll(".questions");
+    for (i= 0; i < questionsPerPage.length; i++) {
+
+        if(i<=4){
+            questionsPerPage[i].style.display= "block";
+        }
+        else {
+            questionsPerPage[i].style.display= "none";
+        }
+    }
+  }
