@@ -19,10 +19,7 @@ class Question {
     }
 
     hasMultipleCorrectAnswers(){
-      if(this.answers.filter(a => a.correct === true).length > 1){
-          return true;
-      }
-      return false;
+      return this.answers.filter(a => a.correct === true).length > 1;
     }
 }
  class QuestionsStorage {
