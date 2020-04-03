@@ -4,6 +4,10 @@ import { QuestionsAnswers } from './modules/answers.js';
 let test, testStorage, questionStorage, questionsAnswers;
 
 window.addEventListener('load', onLoad);
+let button = document.getElementById('btnFinish');
+button.addEventListener('click', onBtnFinishClick);
+
+
 
 function onLoad() {
     testStorage = new TestStorage();
@@ -19,17 +23,26 @@ function onLoad() {
 function loadTest() {
     let testContent = document.getElementById('content');
 
-    test.questions.forEach((questionElement, questionIndex) => {
+    test.questions.forEach((questionElement, questionIndex) =>
+    {
         let question = questionStorage.getQuestionById(questionElement.id);
+        
         let questionDiv = document.createElement('div');
+        
+        /* Create <p> for text question */
         let questionText = document.createElement('p');
-        questionDiv.setAttribute('id', 'question' + (questionIndex + 1));
-        questionDiv.setAttribute('class', 'questions');
         questionText.innerHTML = questionElement.questionText;
+        
+        /* generate Id for <div> for question content */
+        let questionDivId = 'question'+questionElement.id;
+
+        questionDiv.setAttribute('id', questionDivId);
+        questionDiv.setAttribute('class', 'questions');        
+        
         questionDiv.appendChild(questionText);
         testContent.appendChild(questionDiv);
-
-        let answerContent = document.getElementById('question' + (questionIndex + 1)).appendChild(document.createElement('div'));
+        
+        let answerContent = questionDiv.appendChild(document.createElement('div'));
         answerContent.id = 'answersFor' + questionElement.id;
 
         if (!question.hasMultipleCorrectAnswers()) {
@@ -46,7 +59,13 @@ function loadTest() {
                 answerLabel.innerHTML = answerElement.answer;
                 answerDiv.appendChild(radio);
                 answerDiv.appendChild(answerLabel);
-                radio.addEventListener('change', () => { onAnswerClick(questionElement.id, radio.value) });
+                radio.addEventListener('change', () => { onAnswerClick(
+                    {
+                        questionId: questionElement.id,
+                        answerText: answerElement.answer,
+                        correct: radio.value
+                    }
+                ) });
             });
 
         }
@@ -63,33 +82,66 @@ function loadTest() {
                 answerLabel.innerHTML = answerElement.answer;
                 answerDiv.appendChild(checkbox);
                 answerDiv.appendChild(answerLabel);
-                checkbox.addEventListener('change', () => { onAnswerClick(questionElement.id, checkbox.value) });
+                checkbox.addEventListener('change', () => { onAnswerClick(
+                    {
+                        questionId: questionElement.id,
+                        inputId: checkbox.id,
+                        answerText: answerElement.answer,
+                        correct: checkbox.value
+                    }
+                ) });
             });
         }
     });
 }
-function onAnswerClick(id, valueOfAnswer) {
-    let question = questionStorage.getQuestionById(id);
+function onAnswerClick(answerObj) {
+    let question = questionStorage.getQuestionById(answerObj.questionId);
 
-    if (!questionsAnswers.getAnswerById(id)) {
+    if (!questionsAnswers.getAnswerById(answerObj.questionId)) {
         questionsAnswers.addAnswer({
-            id: id,
-            answer: valueOfAnswer
+            id: answerObj.questionId,
+            answers: [
+                {
+                    correct: answerObj.correct,
+                    answer: answerObj.answerText
+                }
+            ]
         });
     }
     else {
         if (question.hasMultipleCorrectAnswers()) {
-            questionsAnswers.updateCheckBoxAnswer({
-                id: id,
-                answer: valueOfAnswer
-            });
+            questionsAnswers.updateCheckboxAnswer(answerObj)
         }
         else {
-            questionsAnswers.updateRadioAnswer({
-                id: id,
-                answer: valueOfAnswer
-            });
+            questionsAnswers.updateRadioAnswer(answerObj)
         }
     }
+}
+
+function onBtnFinishClick(){
+    questionsAnswers.answers.forEach(a =>{
+        var questionDiv = document.getElementById('question'+a.id);
+        let question = questionStorage.getQuestionById(a.id);
+
+        if(question.hasMultipleCorrectAnswers()){
+            const trueAnswers = a.answers.filter(e => JSON.parse(e.correct));
+            const falseAnswer = a.answers.filter(e => JSON.parse(e.correct) === false)[0];
+
+            if(!falseAnswer && trueAnswers.length > 1){
+                questionDiv.style.backgroundColor = 'green';
+            }
+            else {
+                questionDiv.style.backgroundColor = 'red';
+            }
+        }
+        else {
+            if(JSON.parse(a.answers[0].correct)){
+                questionDiv.style.backgroundColor = 'green';
+            }
+            else {
+                questionDiv.style.backgroundColor = 'red';
+            }
+        }
+    });
     console.log(questionsAnswers.answers);
 }
