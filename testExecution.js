@@ -6,7 +6,14 @@ let test, testStorage, questionStorage, questionsAnswers;
 window.addEventListener('load', onLoad);
 let button = document.getElementById('btnFinish');
 button.addEventListener('click', onBtnFinishClick);
-
+let firstBtn= document.getElementById('first');
+firstBtn.addEventListener('click',firstPage);
+let previousBtn= document.getElementById('previous');
+previousBtn.addEventListener('click', previousPage);
+let next_Page= document.getElementById('next');
+next_Page.addEventListener('click', nextPage);
+let lastBtn= document.getElementById('last');
+lastBtn.addEventListener('click', lastPage);
 
 
 function onLoad() {
@@ -18,22 +25,84 @@ function onLoad() {
     let urlParameters = new URLSearchParams(window.location.search);
     let parameter = urlParameters.get('parameter');
     test = testStorage.getTestById(parameter);
-    loadTest();
-}
-function loadTest() {
-    let testContent = document.getElementById('content');
+    loadFirstPage();
+    numberOfPages = getNumberOfPages();
 
-    test.questions.forEach((questionElement, questionIndex) =>
-    {
+}
+function loadFirstPage() {
+    firstPage();
+}
+
+function onAnswerClick(id, valueOfAnswer) {
+    questionsAnswers.addAnswer(
+        {
+            id: id,
+            correct: valueOfAnswer
+        }
+    )
+    
+}
+
+function onBtnFinishClick(){
+    questionsAnswers.answers.forEach(a =>{
+        var questionDiv = document.getElementById('question'+a.id);
+        if(JSON.parse(a.correct)){
+         questionDiv.style.backgroundColor = "green";
+        }
+        else{
+            questionDiv.style.backgroundColor = "red";
+        }
+    });
+}
+var pageList =[];
+var currentPage = 1;
+var numberPerPage = 5;
+var numberOfPages;
+
+function getNumberOfPages() {
+    return Math.ceil(test.questions.length / numberPerPage);
+}
+function firstPage() {
+    removeFromPage();
+    currentPage = 1;
+    loadList();
+}
+function previousPage() {
+    removeFromPage();
+    currentPage -= 1;
+    loadList();
+}
+function nextPage() {
+    removeFromPage();
+    currentPage += 1;
+    loadList();
+}
+function lastPage() {
+    removeFromPage();
+    currentPage = numberOfPages;
+    loadList();
+}
+function loadList() {
+    var begin = ((currentPage - 1) * numberPerPage);
+    var end = begin + numberPerPage;
+
+    pageList = test.questions.slice(begin, end);
+    drawList();    // draws out our data
+    check();         // determines the states of the pagination buttons
+}
+function drawList() {
+    let testContent = document.getElementById('content');
+    pageList.forEach((questionElement) =>{
+   
         let question = questionStorage.getQuestionById(questionElement.id);
         
         let questionDiv = document.createElement('div');
         
-        /* Create <p> for text question */
+        // Create <p> for text question 
         let questionText = document.createElement('p');
         questionText.innerHTML = questionElement.questionText;
         
-        /* generate Id for <div> for question content */
+        //generate Id for <div> for question content 
         let questionDivId = 'question'+questionElement.id;
 
         questionDiv.setAttribute('id', questionDivId);
@@ -79,40 +148,24 @@ function loadTest() {
                 checkbox.addEventListener('change', () => { onAnswerClick(questionElement.id, checkbox.value) });
             });
         }
-        displayQuestPerPage();
+
     });
 }
-function onAnswerClick(id, valueOfAnswer) {
-    questionsAnswers.addAnswer(
-        {
-            id: id,
-            correct: valueOfAnswer
-        }
-    )
-    
+function check() {
+    document.getElementById("next").disabled = currentPage == numberOfPages ? true : false;
+    document.getElementById("previous").disabled = currentPage == 1 ? true : false;
+    document.getElementById("first").disabled = currentPage == 1 ? true : false;
+    document.getElementById("last").disabled = currentPage == numberOfPages  ? true : false;
 }
 
-function onBtnFinishClick(){
-    questionsAnswers.answers.forEach(a =>{
-        var questionDiv = document.getElementById('question'+a.id);
-        if(JSON.parse(a.correct)){
-         questionDiv.style.backgroundColor = "green";
-        }
-        else{
-            questionDiv.style.backgroundColor = "red";
-        }
-    });
-}
-function displayQuestPerPage() {
-    let questionsPerPage, i;
-    questionsPerPage= document.querySelectorAll(".questions");
-    for (i= 0; i < questionsPerPage.length; i++) {
+function removeFromPage(){
+    let questionsPerPage= document.querySelectorAll(".questions");
+    questionsPerPage.forEach(el=>{
+        el.style.display = "none";
+       });
+    } 
 
-        if(i<=4){
-            questionsPerPage[i].style.display= "block";
-        }
-        else {
-            questionsPerPage[i].style.display= "none";
-        }
-    }
-  }
+
+
+
+
