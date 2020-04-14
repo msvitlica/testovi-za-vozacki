@@ -115,13 +115,13 @@ function onAnswerClick(answerObj) {
         }
     }
 }
-function checkAnswers(){
+function checkAnswers() {
     questionsAnswers.answers.forEach((a) => {
         const question = questionStorage.getQuestionById(a.id);
 
         question.answers.forEach(correctAnswer => {
             a.chosenAnswers.forEach(chosenA => {
-                if( chosenA.answer === correctAnswer.answer){
+                if (chosenA.answer === correctAnswer.answer) {
                     chosenA.correct = correctAnswer.correct;
                 }
             });
@@ -138,9 +138,8 @@ function onBtnFinishClick() {
         if (question.hasMultipleCorrectAnswers()) {
             const trueAnswers = a.chosenAnswers.filter(tA => JSON.parse(tA.correct));
             const falseAnswer = a.chosenAnswers.filter(fA => JSON.parse(fA.correct) === false)[0];
-            console.log(falseAnswer);
 
-            if(!falseAnswer && trueAnswers.length > 1){
+            if (!falseAnswer && trueAnswers.length > 1) {
                 questionDiv.style.backgroundColor = 'green';
             }
             else {

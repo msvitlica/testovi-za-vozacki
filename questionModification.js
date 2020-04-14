@@ -177,21 +177,20 @@ function onSelectRow(row) {
     row.classList.add('selectedRow');
 }
 
-function imgUrlToBase64(url, callback) {
-    let imgBase64;
-    let xhttp = new XMLHttpRequest();
+function imgUrlToBase64(url) {
+    let base64;
+    const img = new Image();
+    img.crossOrigin = 'Anonymous';
 
-    xhttp.onload = function () {
-        let fileReader = new fileReader();
-        fileReader.onloadend = function () {
-            imgBase64 = fileReader.result;
-        };
-        fileReader.readAsDataUrl(xhttp.response);
-    };
+    img.onload = function () {
+        let canvas = document.createElement('canvas');
+        canvas.width = this.naturalWidth;
+        canvas.height = this.naturalHeight;
+        
+        canvas.getContext('2d').drawImage(this, 0, 0);
 
-    xhttp.responseType = 'blob';
-    xhttp.open('GET', url, true);
-    xhttp.send();
-    
-    return imgBase64;
+        base64 = canvas.toDataURL('image/png');
+    }
+    img.src = url;
+    return base64;
 }

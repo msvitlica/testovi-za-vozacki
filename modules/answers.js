@@ -26,16 +26,16 @@ class QuestionsAnswers {
     updateCheckboxAnswer(answer) {
         this.answers.forEach(el => {
             if (el.id === answer.questionId) {
-                if (!document.getElementById(answer.inputId).checked) {
-                    const index = el.chosenAnswers.findIndex(a => a.answer === answer.answer);
-                    el.chosenAnswers.splice(index, 1);
-                }
-                else {
+                if (document.getElementById(answer.inputId).checked) {
                     el.chosenAnswers.push(
                         {
                             answer: answer.answerText
                         }
                     );
+                }
+                else {
+                    const index = el.chosenAnswers.findIndex(a => a.answer === answer.answerText);
+                    el.chosenAnswers.splice(index, 1);
                 }
             }
         })

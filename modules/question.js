@@ -18,11 +18,11 @@ class Question {
         })
     }
 
-    hasMultipleCorrectAnswers(){
-      return this.answers.filter(a => a.correct === true).length > 1;
+    hasMultipleCorrectAnswers() {
+        return this.answers.filter(a => a.correct === true).length > 1;
     }
 }
- class QuestionsStorage {
+class QuestionsStorage {
     constructor() {
         this.allQuestions = [];
     }
@@ -32,7 +32,7 @@ class Question {
         localStorage.setItem('allQuestions', JSON.stringify(this.allQuestions));
     }
     getQuestionById(questionId) {
-        return  this.allQuestions.filter(el => el.id == questionId).map(e => Object.assign(new Question, e))[0];
+        return this.allQuestions.filter(el => el.id == questionId).map(e => Object.assign(new Question, e))[0];
     }
     getAllQuestions() {
         let loadData = localStorage.getItem('allQuestions');
@@ -48,7 +48,7 @@ class Question {
                 el.category = question.category;
                 el.img = question.img;
                 el.answers = question.answers;
-                el.point= question.point;
+                el.point = question.point;
             }
         });
         localStorage.setItem('allQuestions', JSON.stringify(this.allQuestions));
@@ -58,6 +58,6 @@ class Question {
         localStorage.setItem('allQuestions', JSON.stringify(this.allQuestions));
     }
 
-    
+
 }
 export { Question, QuestionsStorage };
