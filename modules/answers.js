@@ -16,10 +16,9 @@ class QuestionsAnswers {
     updateRadioAnswer(answer) {
         this.answers.forEach(el => {
             if (el.id === answer.questionId) {
-                el.answers = [
+                el.chosenAnswers = [
                     {
-                        answerText: answer.answerText,
-                        correct: answer.correct
+                        answerText: answer.answerText
                     }];
             }
         });
@@ -27,17 +26,16 @@ class QuestionsAnswers {
     updateCheckboxAnswer(answer) {
         this.answers.forEach(el => {
             if (el.id === answer.questionId) {
-                if (document.getElementById(answer.inputId).checked) {
-                    el.answers.push(
-                        {
-                            answer: answer.answerText,
-                            correct: answer.correct
-                        }
-                    );
+                if (!document.getElementById(answer.inputId).checked) {
+                    const index = el.chosenAnswers.findIndex(a => a.answer === answer.answer);
+                    el.chosenAnswers.splice(index, 1);
                 }
                 else {
-                    const index = el.answers.findIndex(a => a.answer === answer.answer && a.correct === answer.correct);
-                    el.answers.splice(index, 1);
+                    el.chosenAnswers.push(
+                        {
+                            answer: answer.answerText
+                        }
+                    );
                 }
             }
         })

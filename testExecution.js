@@ -52,7 +52,7 @@ function loadTest() {
                 let answerLabel = document.createElement('label');
                 radio.id = questionElement.id + '_answer_' + answerIndex;
                 radio.setAttribute('type', 'radio');
-                radio.setAttribute('value', answerElement.correct);
+                radio.setAttribute('value', answerElement.answer);
                 radio.setAttribute('name', questionElement.id + 'answer');
                 answerLabel.setAttribute('for', radio.id);
                 answerLabel.innerHTML = answerElement.answer;
@@ -62,8 +62,7 @@ function loadTest() {
                     onAnswerClick(
                         {
                             questionId: questionElement.id,
-                            answerText: answerElement.answer,
-                            correct: radio.value
+                            answerText: radio.value
                         });
                 });
             });
@@ -76,7 +75,7 @@ function loadTest() {
                 let checkbox = document.createElement('input');
                 let answerLabel = document.createElement('label');
                 checkbox.setAttribute('type', 'checkbox');
-                checkbox.setAttribute('value', answerElement.correct);
+                checkbox.setAttribute('value', answerElement.answer);
                 checkbox.id = questionElement.id + '_answer_' + answerIndex;
                 answerLabel.setAttribute('for', checkbox.id);
                 answerLabel.innerHTML = answerElement.answer;
@@ -87,8 +86,7 @@ function loadTest() {
                         {
                             questionId: questionElement.id,
                             inputId: checkbox.id,
-                            answerText: answerElement.answer,
-                            correct: checkbox.value
+                            answerText: checkbox.value
                         });
                 });
             });
@@ -101,9 +99,8 @@ function onAnswerClick(answerObj) {
     if (!questionsAnswers.getAnswerById(answerObj.questionId)) {
         questionsAnswers.addAnswer({
             id: answerObj.questionId,
-            answers: [
+            chosenAnswers: [
                 {
-                    correct: answerObj.correct,
                     answer: answerObj.answerText
                 }
             ]
@@ -118,15 +115,30 @@ function onAnswerClick(answerObj) {
         }
     }
 }
+function checkAnswers(){
+    questionsAnswers.answers.forEach((a) => {
+        const question = questionStorage.getQuestionById(a.id);
+
+        question.answers.forEach(correctAnswer => {
+            a.chosenAnswers.forEach(chosenA => {
+                if( chosenA.answer === correctAnswer.answer){
+                    chosenA.correct = correctAnswer.correct;
+                }
+            });
+        });
+    });
+}
 
 function onBtnFinishClick() {
+    checkAnswers();
     questionsAnswers.answers.forEach((a) => {
         const question = questionStorage.getQuestionById(a.id);
         var questionDiv = document.getElementById('question' + a.id);
 
         if (question.hasMultipleCorrectAnswers()) {
-            const trueAnswers = a.answers.filter(e => JSON.parse(e.correct));
-            const falseAnswer = a.answers.filter(e => JSON.parse(e.correct) === false)[0];
+            const trueAnswers = a.chosenAnswers.filter(tA => JSON.parse(tA.correct));
+            const falseAnswer = a.chosenAnswers.filter(fA => JSON.parse(fA.correct) === false)[0];
+            console.log(falseAnswer);
 
             if(!falseAnswer && trueAnswers.length > 1){
                 questionDiv.style.backgroundColor = 'green';
@@ -136,7 +148,7 @@ function onBtnFinishClick() {
             }
         }
         else {
-            if (JSON.parse(a.answers[0].correct)) {
+            if (JSON.parse(a.chosenAnswers[0].correct)) {
                 questionDiv.style.backgroundColor = 'green';
             }
             else {
@@ -145,3 +157,4 @@ function onBtnFinishClick() {
         }
     });
 }
+
