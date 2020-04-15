@@ -5,3 +5,11 @@
     border-radius: 3px;
     border: solid;
 }
+.hide {
+    display: none;
+}
+.testInfo {
+    border: solid;
+    margin: 3px;
+    border-radius: 3px;
+}

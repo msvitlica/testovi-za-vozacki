@@ -23,7 +23,7 @@ function onLoad() {
 function loadTest() {
     let testContent = document.getElementById('content');
 
-    test.questions.forEach((questionElement, questionIndex) => {
+    test.questions.forEach((questionElement) => {
         let question = questionStorage.getQuestionById(questionElement.id);
 
         let questionDiv = document.createElement('div');
@@ -130,7 +130,13 @@ function checkAnswers() {
 }
 
 function onBtnFinishClick() {
+    const content = document.getElementById('content');
+    const testResults = document.getElementById('testResults');
+    content.setAttribute('class', 'hide');
+    testResults.classList.remove('hide');
     checkAnswers();
+
+
     questionsAnswers.answers.forEach((a) => {
         const question = questionStorage.getQuestionById(a.id);
         var questionDiv = document.getElementById('question' + a.id);

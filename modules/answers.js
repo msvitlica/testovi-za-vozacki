@@ -18,7 +18,7 @@ class QuestionsAnswers {
             if (el.id === answer.questionId) {
                 el.chosenAnswers = [
                     {
-                        answerText: answer.answerText
+                        answer: answer.answerText
                     }];
             }
         });
