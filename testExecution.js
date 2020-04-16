@@ -62,6 +62,7 @@ function loadTest() {
                     onAnswerClick(
                         {
                             questionId: questionElement.id,
+                            answerDivId: answerDiv.id,
                             answerText: radio.value
                         });
                 });
@@ -85,6 +86,7 @@ function loadTest() {
                     onAnswerClick(
                         {
                             questionId: questionElement.id,
+                            answerDivId: answerDiv.id,
                             inputId: checkbox.id,
                             answerText: checkbox.value
                         });
@@ -99,6 +101,7 @@ function onAnswerClick(answerObj) {
     if (!questionsAnswers.getAnswerById(answerObj.questionId)) {
         questionsAnswers.addAnswer({
             id: answerObj.questionId,
+            answerDivId: answerObj.answerDivId,
             chosenAnswers: [
                 {
                     answer: answerObj.answerText
@@ -130,36 +133,37 @@ function checkAnswers() {
 }
 
 function onBtnFinishClick() {
+    const results = document.getElementById('results');
     const content = document.getElementById('content');
     const testResults = document.getElementById('testResults');
     content.setAttribute('class', 'hide');
     testResults.classList.remove('hide');
     checkAnswers();
 
+    
 
-    questionsAnswers.answers.forEach((a) => {
+    /*questionsAnswers.answers.forEach((a) => {
         const question = questionStorage.getQuestionById(a.id);
-        var questionDiv = document.getElementById('question' + a.id);
+        let answerDiv = document.getElementById(a.answerDivId);
 
         if (question.hasMultipleCorrectAnswers()) {
             const trueAnswers = a.chosenAnswers.filter(tA => JSON.parse(tA.correct));
             const falseAnswer = a.chosenAnswers.filter(fA => JSON.parse(fA.correct) === false)[0];
 
             if (!falseAnswer && trueAnswers.length > 1) {
-                questionDiv.style.backgroundColor = 'green';
+                answerDiv.style.backgroundColor = 'green';
             }
             else {
-                questionDiv.style.backgroundColor = 'red';
+                answerDiv.style.backgroundColor = 'red';
             }
         }
         else {
             if (JSON.parse(a.chosenAnswers[0].correct)) {
-                questionDiv.style.backgroundColor = 'green';
+                answerDiv.style.backgroundColor = 'green';
             }
             else {
-                questionDiv.style.backgroundColor = 'red';
+                answerDiv.style.backgroundColor = 'red';
             }
         }
-    });
+    });*/
 }
-
