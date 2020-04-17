@@ -16,6 +16,7 @@ class QuestionsAnswers {
     updateRadioAnswer(answer) {
         this.answers.forEach(el => {
             if (el.id === answer.questionId) {
+                el.answerDivId = answer.answerDivId;
                 el.chosenAnswers = [
                     {
                         answer: answer.answerText
@@ -27,6 +28,7 @@ class QuestionsAnswers {
         this.answers.forEach(el => {
             if (el.id === answer.questionId) {
                 if (document.getElementById(answer.inputId).checked) {
+                    el.answerDivId = answer.answerDivId;
                     el.chosenAnswers.push(
                         {
                             answer: answer.answerText

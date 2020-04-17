@@ -140,8 +140,65 @@ function onBtnFinishClick() {
     testResults.classList.remove('hide');
     checkAnswers();
 
-    
+    test.questions.forEach(questionElement => {
+        questionsAnswers.answers.forEach(chosenAnswerObj => {
+            let question = questionStorage.getQuestionById(questionElement.id);
+            // Create and append question div, setting values for p element
+            let questionDiv = document.createElement('div');
+            let questionText = document.createElement('p');
+            let answersDiv = document.createElement('div');
+            questionDiv.setAttribute('class', 'questions');
+            questionText.innerText = questionElement.questionText;
+            questionDiv.append(questionText, answersDiv);
+            results.append(questionDiv);
 
+            if (question.hasMultipleCorrectAnswers()) {
+                questionElement.answers.forEach((answerElement, answerIndex) => {
+                    // Create answer div, setting values for input and label 
+                    let answer = document.createElement('div');
+                    let label = document.createElement('label');
+                    let checkbox = document.createElement('input');
+                    answer.id = questionElement.id + 'answer' + answerIndex;
+                    label.append(checkbox, answerElement.answer);
+                    checkbox.type = 'checkbox';
+                    checkbox.disabled = true;
+                    answer.setAttribute('class', (JSON.parse(answerElement.correct) ? 'correctAnswer' : 'falseAnswer'));
+                    answer.appendChild(label);
+                    answersDiv.append(answer);
+                    chosenAnswerObj.chosenAnswers.forEach(chosenAnswer => {
+                        if (chosenAnswer.answer === answerElement.answer) {
+                            checkbox.checked = true;
+                            answer.style.backgroundColor = JSON.parse(chosenAnswer.correct) ? 'correctAnswer' : 'falseAnswer';
+                            
+                        }
+                    });
+                });
+            }
+            else {
+                questionElement.answers.forEach((answerElement, answerIndex) => {
+                    // Create answer div, setting values for input and label
+                    let answer = document.createElement('div');
+                    let label = document.createElement('label');
+                    let radio = document.createElement('input');
+                    answer.id = questionElement.id + 'answer' + answerIndex;
+                    label.append(radio, answerElement.answer);
+                    radio.type = 'radio';
+                    radio.disabled = true;
+                    answer.setAttribute('class', (JSON.parse(answerElement.correct) ? 'correctAnswer' : 'falseAnswer'));
+                    answer.appendChild(label);
+                    answersDiv.append(answer);
+                    chosenAnswerObj.chosenAnswers.forEach(chosenAnswer => {
+                        if (chosenAnswer.answer === answerElement.answer) {
+                            radio.checked = true;
+                            answer.style.backgroundColor = JSON.parse(chosenAnswer.correct) ? 'correctAnswer' : 'falseAnswer';
+                            
+                        }
+                    });
+                });
+            }
+        });
+    });
+    console.log(questionsAnswers);
     /*questionsAnswers.answers.forEach((a) => {
         const question = questionStorage.getQuestionById(a.id);
         let answerDiv = document.getElementById(a.answerDivId);
