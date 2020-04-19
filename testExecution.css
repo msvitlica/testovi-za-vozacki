@@ -22,7 +22,8 @@
 }
 .points {
     position: absolute;
-    left: 90%;
+    top: 0;
+    left: 93%;
 }
 #scoredPoints {
     float: left;
