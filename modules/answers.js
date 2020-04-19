@@ -45,6 +45,9 @@ class QuestionsAnswers {
     getAnswerById(id) {
         return this.answers.filter(el => el.id === id)[0];
     }
+    getScoredPoints() {
+        return this.answers.reduce((totalPoints, answerElement) => totalPoints + JSON.parse(answerElement.points), 0);
+    }
 }
 
 export { QuestionsAnswers };

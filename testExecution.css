@@ -1,4 +1,5 @@
 .questions {
+    position: relative;
     margin: 3px;
     padding: 0.5em;
     border-width: 2px;
@@ -18,4 +19,22 @@
 }
 .falseAnswer {
     background-color: rgba(255, 0, 0, 0.5);
+}
+.points {
+    position: absolute;
+    left: 90%;
+}
+#scoredPoints {
+    float: left;
+    margin: 5px;
+}
+#posibleToScore {
+    float: right;
+    margin: 5px;
+}
+#info {
+    justify-content: center;
+    text-align: center;
+}
+#message {
 }

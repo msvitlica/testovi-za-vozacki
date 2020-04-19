@@ -28,9 +28,12 @@ function loadTest() {
 
         let questionDiv = document.createElement('div');
 
-        /* Create <p> for text question */
+        /* Create <p> for text question and <span> for points */
         let questionText = document.createElement('p');
+        let points = document.createElement('div');
         questionText.innerHTML = questionElement.questionText;
+        points.innerHTML = 'Bodovi: ' + '<b>' + question.point + '</b>';
+        points.setAttribute('class', 'points');
 
         /* generate Id for <div> for question content */
         let questionDivId = 'question' + questionElement.id;
@@ -38,7 +41,7 @@ function loadTest() {
         questionDiv.setAttribute('id', questionDivId);
         questionDiv.setAttribute('class', 'questions');
 
-        questionDiv.appendChild(questionText);
+        questionDiv.append(questionText, points);
         testContent.appendChild(questionDiv);
 
         let answerContent = questionDiv.appendChild(document.createElement('div'));
@@ -118,109 +121,150 @@ function onAnswerClick(answerObj) {
         }
     }
 }
-function checkAnswers() {
-    questionsAnswers.answers.forEach((a) => {
-        const question = questionStorage.getQuestionById(a.id);
+function checkAnswersValues() {
+    questionsAnswers.answers.forEach((answerObj) => {
+        const question = questionStorage.getQuestionById(answerObj.id);
 
         question.answers.forEach(correctAnswer => {
-            a.chosenAnswers.forEach(chosenA => {
-                if (chosenA.answer === correctAnswer.answer) {
-                    chosenA.correct = correctAnswer.correct;
+            answerObj.chosenAnswers.forEach(chosenAnswer => {
+                if (chosenAnswer.answer === correctAnswer.answer) {
+                    chosenAnswer.correct = correctAnswer.correct;
                 }
             });
         });
     });
 }
-
-function onBtnFinishClick() {
-    const results = document.getElementById('results');
-    const content = document.getElementById('content');
-    const testResults = document.getElementById('testResults');
-    content.setAttribute('class', 'hide');
-    testResults.classList.remove('hide');
-    checkAnswers();
-
-    test.questions.forEach(questionElement => {
-        questionsAnswers.answers.forEach(chosenAnswerObj => {
-            let question = questionStorage.getQuestionById(questionElement.id);
-            // Create and append question div, setting values for p element
-            let questionDiv = document.createElement('div');
-            let questionText = document.createElement('p');
-            let answersDiv = document.createElement('div');
-            questionDiv.setAttribute('class', 'questions');
-            questionText.innerText = questionElement.questionText;
-            questionDiv.append(questionText, answersDiv);
-            results.append(questionDiv);
-
-            if (question.hasMultipleCorrectAnswers()) {
-                questionElement.answers.forEach((answerElement, answerIndex) => {
-                    // Create answer div, setting values for input and label 
-                    let answer = document.createElement('div');
-                    let label = document.createElement('label');
-                    let checkbox = document.createElement('input');
-                    answer.id = questionElement.id + 'answer' + answerIndex;
-                    label.append(checkbox, answerElement.answer);
-                    checkbox.type = 'checkbox';
-                    checkbox.disabled = true;
-                    answer.setAttribute('class', (JSON.parse(answerElement.correct) ? 'correctAnswer' : 'falseAnswer'));
-                    answer.appendChild(label);
-                    answersDiv.append(answer);
-                    chosenAnswerObj.chosenAnswers.forEach(chosenAnswer => {
-                        if (chosenAnswer.answer === answerElement.answer) {
-                            checkbox.checked = true;
-                            answer.style.backgroundColor = JSON.parse(chosenAnswer.correct) ? 'correctAnswer' : 'falseAnswer';
-                            
-                        }
-                    });
-                });
-            }
-            else {
-                questionElement.answers.forEach((answerElement, answerIndex) => {
-                    // Create answer div, setting values for input and label
-                    let answer = document.createElement('div');
-                    let label = document.createElement('label');
-                    let radio = document.createElement('input');
-                    answer.id = questionElement.id + 'answer' + answerIndex;
-                    label.append(radio, answerElement.answer);
-                    radio.type = 'radio';
-                    radio.disabled = true;
-                    answer.setAttribute('class', (JSON.parse(answerElement.correct) ? 'correctAnswer' : 'falseAnswer'));
-                    answer.appendChild(label);
-                    answersDiv.append(answer);
-                    chosenAnswerObj.chosenAnswers.forEach(chosenAnswer => {
-                        if (chosenAnswer.answer === answerElement.answer) {
-                            radio.checked = true;
-                            answer.style.backgroundColor = JSON.parse(chosenAnswer.correct) ? 'correctAnswer' : 'falseAnswer';
-                            
-                        }
-                    });
-                });
-            }
-        });
-    });
-    console.log(questionsAnswers);
-    /*questionsAnswers.answers.forEach((a) => {
-        const question = questionStorage.getQuestionById(a.id);
-        let answerDiv = document.getElementById(a.answerDivId);
+function checkAnswers() {
+    checkAnswersValues();
+    questionsAnswers.answers.forEach(answer => {
+        const question = questionStorage.getQuestionById(answer.id);
 
         if (question.hasMultipleCorrectAnswers()) {
-            const trueAnswers = a.chosenAnswers.filter(tA => JSON.parse(tA.correct));
-            const falseAnswer = a.chosenAnswers.filter(fA => JSON.parse(fA.correct) === false)[0];
+            const trueAnswers = answer.chosenAnswers.filter(tA => JSON.parse(tA.correct));
+            const falseAnswer = answer.chosenAnswers.filter(fA => JSON.parse(fA.correct) === false)[0];
 
             if (!falseAnswer && trueAnswers.length > 1) {
-                answerDiv.style.backgroundColor = 'green';
+                answer.points = question.point;
             }
             else {
-                answerDiv.style.backgroundColor = 'red';
+                answer.points = 0;
             }
         }
         else {
-            if (JSON.parse(a.chosenAnswers[0].correct)) {
-                answerDiv.style.backgroundColor = 'green';
+            if (JSON.parse(answer.chosenAnswers[0].correct)) {
+                answer.points = question.point;
             }
             else {
-                answerDiv.style.backgroundColor = 'red';
+                answer.points = 0;
             }
         }
-    });*/
+    });
+}
+function renderTestResults() {
+    const results = document.getElementById('results');
+    test.questions.forEach(questionElement => {
+        let question = questionStorage.getQuestionById(questionElement.id);
+        // Create and append question div, setting values for p element
+        let questionDiv = document.createElement('div');
+        let questionText = document.createElement('p');
+        let answersDiv = document.createElement('div');
+        questionDiv.setAttribute('class', 'questions');
+        questionText.innerText = questionElement.questionText;
+        questionDiv.append(questionText, answersDiv);
+        results.append(questionDiv);
+
+        if (question.hasMultipleCorrectAnswers()) {
+            questionElement.answers.forEach((answerElement, answerIndex) => {
+                // Create answer div, setting values for input and label 
+                let answer = document.createElement('div');
+                let label = document.createElement('label');
+                let checkbox = document.createElement('input');
+                answer.id = questionElement.id + 'answer' + answerIndex;
+                label.append(checkbox, answerElement.answer);
+                checkbox.type = 'checkbox';
+                checkbox.disabled = true;
+                answer.appendChild(label);
+                answersDiv.append(answer);
+                let chosenAnswer = questionsAnswers.getAnswerById(question.id);
+                if (chosenAnswer) {
+                    chosenAnswer.chosenAnswers.forEach(a => {
+                        if (a.answer === answerElement.answer) {
+                            checkbox.checked = true;
+                            answer.setAttribute('class', (JSON.parse(a.correct) ? 'correctAnswer' : 'falseAnswer'));
+                        }
+                        else {
+                            answer.setAttribute('class', (JSON.parse(answerElement.correct) ? 'correctAnswer' : 'falseAnswer'));
+                        }
+                    });
+                }
+                else {
+                    answer.setAttribute('class', (JSON.parse(answerElement.correct) ? 'correctAnswer' : 'falseAnswer'));
+                }
+            });
+        }
+        else {
+            questionElement.answers.forEach((answerElement, answerIndex) => {
+                // Create answer div, setting values for input and label
+                let answer = document.createElement('div');
+                let label = document.createElement('label');
+                let radio = document.createElement('input');
+                answer.id = questionElement.id + 'answer' + answerIndex;
+                label.append(radio, answerElement.answer);
+                radio.type = 'radio';
+                radio.disabled = true;
+                answer.appendChild(label);
+                answersDiv.append(answer);
+                let chosenAnswer = questionsAnswers.getAnswerById(question.id);
+                if (chosenAnswer) {
+                    chosenAnswer.chosenAnswers.forEach(a => {
+                        if (a.answer === answerElement.answer) {
+                            radio.checked = true;
+                            answer.setAttribute('class', (JSON.parse(a.correct) ? 'correctAnswer' : 'falseAnswer'));
+                        }
+                        else {
+                            answer.setAttribute('class', (JSON.parse(answerElement.correct) ? 'correctAnswer' : 'falseAnswer'));
+                        }
+                    });
+                }
+                else {
+                    answer.setAttribute('class', (JSON.parse(answerElement.correct) ? 'correctAnswer' : 'falseAnswer'));
+                }
+            });
+        }
+    });
+}
+
+function onBtnFinishClick() {
+    const content = document.getElementById('content');
+    const testResults = document.getElementById('testResults');
+    const points = document.getElementById('points');
+    const posiblePoints = document.getElementById('posiblePoints');
+    const message = document.getElementById('message');
+    const finishBtn = document.getElementById('btnFinish');
+    const posibleToScore = test.questions.reduce((a, b) => a + JSON.parse(b.point), 0);
+    content.setAttribute('class', 'hide');
+    finishBtn.setAttribute('class', 'hide');
+    testResults.classList.remove('hide');
+    checkAnswers();
+    renderTestResults();
+    const scoredPoints = questionsAnswers.getScoredPoints();
+    points.innerHTML = scoredPoints;
+    posiblePoints.innerHTML = posibleToScore;
+
+    if (test.category === 'Kategorija B') {
+        if (scoredPoints === 108 || scoredPoints > 108) {
+            message.innerHTML = 'Čestitamo, položili ste!'
+        }
+        else {
+            message.innerHTML = 'Žao nam je, niste položili test!'
+        }
+    }
+    else if(test.category === 'Kategorija C' || test.category === 'Kategorija D') {
+        if(scoredPoints === 126 || scoredPoints > 126){
+            message.innerHTML = 'Čestitamo, položili ste!'
+        }
+        else {
+            message.innerHTML = 'Žao nam je, niste položili test!'
+        }
+    }
 }
