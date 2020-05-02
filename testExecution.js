@@ -54,7 +54,7 @@ function onBtnFinishClick(){
         }
     });
 }
-var pageList =[];
+var questionList =[];
 var currentPage = 1;
 var numberPerPage = 5;
 var numberOfPages;
@@ -86,13 +86,13 @@ function loadList() {
     var begin = ((currentPage - 1) * numberPerPage);
     var end = begin + numberPerPage;
 
-    pageList = test.questions.slice(begin, end);
-    drawList();    // draws out our data
-    check();         // determines the states of the pagination buttons
+    questionList = test.questions.slice(begin, end);
+    drawList();    
+    check();         
 }
 function drawList() {
     let testContent = document.getElementById('content');
-    pageList.forEach((questionElement) =>{
+    questionList.forEach((questionElement) =>{
    
         let question = questionStorage.getQuestionById(questionElement.id);
         
