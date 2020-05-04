@@ -6,7 +6,14 @@ let test, testStorage, questionStorage, questionsAnswers;
 window.addEventListener('load', onLoad);
 let button = document.getElementById('btnFinish');
 button.addEventListener('click', onBtnFinishClick);
-
+let firstBtn= document.getElementById('first');
+firstBtn.addEventListener('click',firstPage);
+let previousBtn= document.getElementById('previous');
+previousBtn.addEventListener('click', previousPage);
+let next_Page= document.getElementById('next');
+next_Page.addEventListener('click', nextPage);
+let lastBtn= document.getElementById('last');
+lastBtn.addEventListener('click', lastPage);
 
 
 function onLoad() {
@@ -18,30 +25,71 @@ function onLoad() {
     let urlParameters = new URLSearchParams(window.location.search);
     let parameter = urlParameters.get('parameter');
     test = testStorage.getTestById(parameter);
-    loadTest();
-}
-function loadTest() {
-    let testContent = document.getElementById('content');
+    loadFirstPage();
+    numberOfPages = getNumberOfPages();
 
-    test.questions.forEach((questionElement, questionIndex) =>
-    {
+}
+function loadFirstPage() {
+    firstPage();
+}
+
+var questionList =[];
+var currentPage = 1;
+var numberPerPage = 5;
+var numberOfPages;
+
+function getNumberOfPages() {
+    return Math.ceil(test.questions.length / numberPerPage);
+}
+function firstPage() {
+    removeFromPage();
+    currentPage = 1;
+    loadList();
+}
+function previousPage() {
+    removeFromPage();
+    currentPage -= 1;
+    loadList();
+}
+function nextPage() {
+    removeFromPage();
+    currentPage += 1;
+    loadList();
+}
+function lastPage() {
+    removeFromPage();
+    currentPage = numberOfPages;
+    loadList();
+}
+function loadList() {
+    var begin = ((currentPage - 1) * numberPerPage);
+    var end = begin + numberPerPage;
+
+    questionList = test.questions.slice(begin, end);
+    drawList();    
+    check();         
+}
+function drawList() {
+    let testContent = document.getElementById('content');
+    questionList.forEach((questionElement) =>{
+   
         let question = questionStorage.getQuestionById(questionElement.id);
         
         let questionDiv = document.createElement('div');
         
-        /* Create <p> for text question */
+        // Create <p> for text question 
         let questionText = document.createElement('p');
         questionText.innerHTML = questionElement.questionText;
         
-        /* generate Id for <div> for question content */
+        //generate Id for <div> for question content 
         let questionDivId = 'question'+questionElement.id;
 
         questionDiv.setAttribute('id', questionDivId);
         questionDiv.setAttribute('class', 'questions');        
-        
+
         questionDiv.appendChild(questionText);
         testContent.appendChild(questionDiv);
-        
+
         let answerContent = questionDiv.appendChild(document.createElement('div'));
         answerContent.id = 'answersFor' + questionElement.id;
 
@@ -92,6 +140,7 @@ function loadTest() {
                 ) });
             });
         }
+
     });
 }
 function onAnswerClick(answerObj) {
@@ -145,3 +194,22 @@ function onBtnFinishClick(){
     });
     console.log(questionsAnswers.answers);
 }
+function check() {
+    document.getElementById("next").disabled = currentPage == numberOfPages ? true : false;
+    document.getElementById("previous").disabled = currentPage == 1 ? true : false;
+    document.getElementById("first").disabled = currentPage == 1 ? true : false;
+    document.getElementById("last").disabled = currentPage == numberOfPages  ? true : false;
+}
+
+function removeFromPage(){
+    let questionsPerPage= document.querySelectorAll(".questions");
+    questionsPerPage.forEach(el=>{
+        el.style.display = "none";
+       });
+}
+
+
+
+
+
+
